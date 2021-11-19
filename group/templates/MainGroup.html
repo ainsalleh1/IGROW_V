@@ -66,10 +66,10 @@
                           </div>
   
                           <div class="col-12">
-                            <a href="{% url 'Group' %}" class="link-primary">New Group</a> 
+                            <a href="templates\group.html" class="link-primary">New Group</a> 
                           </div><tr></tr>
                           <div class="col-12">
-                            <a href="#" class="link-primary">My Group</a> 
+                            <a href="{% url 'MyGroup' %}" class="link-primary">My Group</a> 
                           </div>
                           <br/>
                           {% endblock content %}
@@ -91,9 +91,9 @@
               <tbody>
                 {% for group in group %}
                 <tr>
-                  <th scope="row" value="{{ group.Name }}">{{ group.Name }}</th>
-                  <th scope="row" value="{{ group.About }}">{{ group.About }}</th>
-                  <th scope="row" value="{{ group.Media }}">{{ group.Media }}</th>
+                  <th scope="row" value="{{ Group.Name }}">{{ group.Name }}</th>
+                  <th scope="row" value="{{ Group.About }}">{{ group.About }}</th>
+                  <th scope="row" value="{{ Group.Media }}">{{ group.Media }}</th>
                   <td>
                     <button type="submit" class="btn btn-success " value="Add">Add</button>
                   </td>
