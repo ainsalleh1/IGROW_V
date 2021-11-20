@@ -21,7 +21,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-# from LOGIN.views import UserReg, sharing, discussion, view, workshop, booking, member
+#from LOGIN.views import UserReg, sharing, discussion, view, workshop, booking, member
 from .import views
 from django.conf.urls import url
 # from .import index
@@ -42,15 +42,15 @@ urlpatterns = [
     path('Logout',views.logout, name="Logout"),
     path('View',views.view,name="View"),
 
-    path('MainSharing.html',views.mainSharing, name="MainSharing"),
+    path('MainSharing',views.mainSharing, name="MainSharing"),
     path('sharing.html',views.sharing, name="Sharing"),
     #path('ViewSharing',views.viewSharing,name="ViewSharing"),
     #path('templates\UpdateSharing',views.updateSharing, name="UpdateSharing"),
     path('DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
 
-    path('MainGroup.html',views.mainGroup, name="MainGroup"),
+    path('MainGroup',views.mainGroup, name="MainGroup"),
     path('group',views.group, name="Group"),
-    path('MyGroup.html',views.myGroup, name="MyGroup"),
+    path('MyGroup',views.myGroup, name="MyGroup"),
 
     path('MainMember.html', views.mainMember, name="MainMember"),
     path('member.html',views.member, name="member"),

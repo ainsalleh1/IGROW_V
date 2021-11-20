@@ -11,9 +11,11 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
-
+from workshop.models import Workshop
 from group.models import Group
 from .models import Person
+from member.models import Member
+from sharing.models import Feed
 #from member.models import Users 
 #from .serializers import UsersSerializer 
 #from rest_framework import viewsets
