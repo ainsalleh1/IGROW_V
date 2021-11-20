@@ -76,7 +76,7 @@
                           {% block body %}
 
 <form action="{% url 'Group' %}" method="POST" class="center">
-  
+  {% csrf_token %}
         <div class="container">
           <div class="row">
             <table class="table caption-top">
