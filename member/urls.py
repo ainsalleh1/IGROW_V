@@ -43,31 +43,31 @@ urlpatterns = [
     path('Logout',views.logout, name="Logout"),
     path('View',views.view,name="View"),
 
-    path('templates\MainSharing.html',views.mainSharing, name="MainSharing"),
-    path('templates\sharing.html',views.sharing, name="Sharing"),
+    path('MainSharing.html',views.mainSharing, name="MainSharing"),
+    path('sharing.html',views.sharing, name="Sharing"),
     #path('ViewSharing',views.viewSharing,name="ViewSharing"),
     #path('templates\UpdateSharing',views.updateSharing, name="UpdateSharing"),
-    path('templates\DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
+    path('DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
 
-    path('templates\MainGroup.html',views.mainGroup, name="MainGroup"),
-    path('templates\group.html',views.group, name="Group"),
-    path('templates\MyGroup.html',views.myGroup, name="MyGroup"),
+    path('MainGroup.html',views.mainGroup, name="MainGroup"),
+    path('group.html',views.group, name="Group"),
+    path('MyGroup.html',views.myGroup, name="MyGroup"),
 
-    path('templates\MainMember.html', views.mainMember, name="MainMember"),
-    path('templates\member.html',views.member, name="member"),
-    path('templates\friendlist.html',views.friendlist, name="friendlist"),
+    path('MainMember.html', views.mainMember, name="MainMember"),
+    path('member.html',views.member, name="member"),
+    path('friendlist.html',views.friendlist, name="friendlist"),
     #path('templates\MyMember.html',views.myMember, name="MyMember"),
-    path('templates\MainSearchbar/', views.MainSearchbar, name='MainSearchbar'),
+    path('MainSearchbar', views.MainSearchbar, name='MainSearchbar'),
 
-    path('templates\workshop.html',views.workshop, name="Workshop"),
+    path('workshop.html',views.workshop, name="Workshop"),
     #path('templates\Booking',views.booking, name="Booking"),
-    path('templates\CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
+    path('CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
 
     url(r'^api/users_list/$', UserList.as_view(), name='user_list'),
-    url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),
-    url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
+    #url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),
+    #url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
+    #url(r'^rest-auth/', include('rest_auth.urls')),
+    #url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
 
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
 

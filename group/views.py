@@ -26,9 +26,9 @@ def mainGroup(request):
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
-#@csrf_exempt
+
 def group(request):
-    #context=RequestContext(request)
+    
     if request.method=='POST':
         Name=request.POST.get('Name')
         About=request.POST.get('About')
