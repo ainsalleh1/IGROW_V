@@ -25,7 +25,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from .import views
 from django.conf.urls import url
 # from .import index
-
 from .api import UserList, UserDetail, UserAuthentication
 #from member import views
 #from rest_framework import routers
@@ -50,7 +49,7 @@ urlpatterns = [
     path('DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
 
     path('MainGroup.html',views.mainGroup, name="MainGroup"),
-    path('group.html',views.group, name="Group"),
+    path('group',views.group, name="Group"),
     path('MyGroup.html',views.myGroup, name="MyGroup"),
 
     path('MainMember.html', views.mainMember, name="MainMember"),
