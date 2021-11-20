@@ -14,8 +14,8 @@ from django.conf.urls import url
 #from .api import UserList, UserDetail, UserAuthentication
 
 urlpatterns = [
-    path('templates/MainGroup.html',views.mainGroup, name="MainGroup"),
-    path('group.html',views.group, name="Group"),
+    path('templates/MainGroup.html', views.mainGroup, name="MainGroup"),
+    path('templates/group.html',views.group, name="Group"),
     path('templates/MyGroup.html',views.myGroup, name="MyGroup"),
  
 
