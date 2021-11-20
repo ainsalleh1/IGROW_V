@@ -12,6 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
+#from django.views.decorators.csrf import csrf_exempt
 
 from group.models import Group
 # from .models import Person
@@ -25,7 +26,9 @@ def mainGroup(request):
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
+#@csrf_exempt
 def group(request):
+    #context=RequestContext(request)
     if request.method=='POST':
         Name=request.POST.get('Name')
         About=request.POST.get('About')
