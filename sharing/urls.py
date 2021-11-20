@@ -14,7 +14,7 @@ from django.conf.urls import url
 # from .api import UserList, UserDetail, UserAuthentication
 
 urlpatterns = [
-    path('templates\MainSharing.html',views.mainSharing, name="MainSharing"),
+    path('MainSharing.html',views.mainSharing, name="MainSharing"),
     path('sharing.html',views.sharing, name="Sharing"),
     #path('ViewSharing',views.viewSharing,name="ViewSharing"),
     path('UpdateSharing',views.updateSharing, name="UpdateSharing"),

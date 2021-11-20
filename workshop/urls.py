@@ -15,9 +15,9 @@ from django.conf.urls import url
 
 urlpatterns = [
     
-    path('templates\workshop.html',views.workshop, name="Workshop"),
+    path('workshop.html',views.workshop, name="Workshop"),
     #path('Booking',views.booking, name="Booking"),
-    path('templates\CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
+    path('CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
 
 
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

@@ -46,6 +46,7 @@
     {% csrf_token %}
     {% block body %}
   <form action="#" method="POST" class="center">
+    {% csrf_token %}
     <div class="container">
       <a href="{% url 'CreateWorkshop' %}" class="link-primary">Create</a> 
       <br/><br/>

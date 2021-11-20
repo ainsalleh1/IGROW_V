@@ -14,9 +14,9 @@ from django.conf.urls import url
 #from .api import UserList, UserDetail, UserAuthentication
 
 urlpatterns = [
-    path('templates/MainGroup.html', views.mainGroup, name="MainGroup"),
-    path('templates/group.html',views.group, name="Group"),
-    path('templates/MyGroup.html',views.myGroup, name="MyGroup"),
+    path('MainGroup.html', views.mainGroup, name="MainGroup"),
+    path('group.html', views.group, name="Group"),
+    path('MyGroup.html',views.myGroup, name="MyGroup"),
  
 
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
