@@ -56,7 +56,7 @@ urlpatterns = [
     path('MainMember.html', views.mainMember, name="MainMember"),
     path('member.html',views.member, name="member"),
     path('friendlist.html',views.friendlist, name="friendlist"),
-    #path('templates\MyMember.html',views.myMember, name="MyMember"),
+    #path('MyMember.html',views.myMember, name="MyMember"),
     path('MainSearchbar', views.MainSearchbar, name='MainSearchbar'),
 
     path('workshop.html',views.workshop, name="Workshop"),
