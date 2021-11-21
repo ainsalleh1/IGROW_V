@@ -57,8 +57,9 @@ def UserReg(request):
         About=request.POST['About']
         Gen=request.POST.get('Gender')
         MaritalStatus=request.POST.get('MaritalStatus')
+        UserLevel = request.POST.get("UserLevel")
         Person(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
-            Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus).save(),
+            Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel).save(),
         #cuba
         # FarmingPerson(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
         #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus).save(),

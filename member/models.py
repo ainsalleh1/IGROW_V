@@ -17,6 +17,7 @@ class Person(models.Model):
     About = models.CharField(max_length=150)
     Gender = models.CharField(max_length=1)
     MaritalStatus = models.CharField(max_length=150)
+    UserLevel = models.CharField(max_length=1)
 
     def save(self):
         super().save()
