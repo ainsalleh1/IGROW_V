@@ -17,7 +17,6 @@ from cryptography.fernet import Fernet
 from group.models import Group
 # from .models import Person
 
-
 #group
 def mainGroup(request):
     try:
@@ -28,7 +27,6 @@ def mainGroup(request):
 
 
 def group(request):
-    
     if request.method=='POST':
         Name=request.POST.get('Name')
         About=request.POST.get('About')

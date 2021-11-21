@@ -79,6 +79,7 @@
 
      <div class="col-12">
        <button type="submit" class="btn btn-success " value="Add">Create</button>
+       {% csrf_token %}
      </div>
      <br/><br/>
      {% if messages %}
