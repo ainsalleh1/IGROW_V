@@ -43,7 +43,7 @@ urlpatterns = [
     path('Logout',views.logout, name="Logout"),
     path('View',views.view,name="View"),
 
-    path('MainSharing',views.mainSharing, name="MainSharing"),
+    path('MainSharing.html',views.mainSharing, name="MainSharing"),
     path('sharing.html',views.sharing, name="Sharing"),
     #path('ViewSharing',views.viewSharing,name="ViewSharing"),
     #path('templates\UpdateSharing',views.updateSharing, name="UpdateSharing"),

@@ -12,6 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
+from sharing.models import Feed
 # from .models import Person
 
 # Create your views here.

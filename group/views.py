@@ -40,7 +40,7 @@ def group(request):
 
 def myGroup(request):
     try:
-        #group=Group.objects.filter(Name=request.session['Name'])
+        group=Group.objects.filter(Name=request.session['Name'])
         return render(request,'MyGroup.html',{'group':group})
     except Group.DoesNotExist:
        raise Http404('Data does not exist')

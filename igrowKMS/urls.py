@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('',views.Indexpage),
     path('', include('member.urls')),
-    path('group/templates/', include('group.urls')),
-    path('sharing/templates/', include('sharing.urls')),
-    path('workshop/templates/', include('workshop.urls')),
+    path('', include('group.urls')),
+    path('', include('sharing.urls')),
+    path('', include('workshop.urls')),
 ]
