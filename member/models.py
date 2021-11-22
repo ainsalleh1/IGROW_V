@@ -25,7 +25,7 @@ class Person(models.Model):
 
     class Meta:
         db_table = 'login_person'
-
+        
 def user_form(sender, instance, created, **kwargs):
     if created:
         Person.objects.create(user=instance)

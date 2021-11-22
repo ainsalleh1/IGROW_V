@@ -42,7 +42,7 @@
          <a class="nav-link active" id="friends-tab" data-bs-toggle="tab" href="{% url 'MainMember' %}" role="tab" aria-controls="friends" aria-selected="true">Member</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'Workshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
+          <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'BookWorkshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
          </li>
          <li class="nav-item" role="presentation">
           <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="{% url 'View' %}" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
@@ -69,7 +69,7 @@
                             <a href="{% url 'Group' %}" class="link-primary">New Group</a> 
                           </div><tr></tr>
                           <div class="col-12">
-                            <a href="{% url 'MyGroup' %}" class="link-primary">My Group</a> 
+                            <a href="{% url 'MyGroup' %}" class="link-primary">View Group Details</a> 
                           </div>
                           <br/>
                           {% endblock content %}

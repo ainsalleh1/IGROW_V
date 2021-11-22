@@ -31,22 +31,7 @@
     <div>
       <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist" >
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'HomeAdmin' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="sharing-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="sharing" aria-selected="true">User</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="discussion" aria-selected="true">Booking</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'Workshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
-         </li>
-        </li>
-      </ul>
-      <!-- <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist" >
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'HomeAdmin' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
+          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'Home' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="sharing-tab" data-bs-toggle="tab" href="{% url 'MainSharing' %}" role="tab" aria-controls="sharing" aria-selected="true">Sharing</a>
@@ -64,44 +49,63 @@
           <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="{% url 'View' %}" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
          </li>
         </li>
-      </ul> -->
+      </ul>
     </div>
   <br/>
   <br>
-  <p class="h3 text-center align-content: center;">Workshop</p><br/>
-  {% block content %}
-  <form method="POST" class="container text-left" >
-    <form class="row g-3">
-      {% csrf_token %}
-      <div class="col-md-6">
-        <label for="inputProgrammeName" class="form-label">Programme Name : </label>
-        <input class="form-control" id="inputProgrammeName" name="ProgrammeName" rows="10" cols="10" placeholder="Enter programme name"></textarea>
-      </div>
-      <br/><br/>
-      <div class="col-md-6">
-        <label for="inputDescription" class="form-label">Description : </label>
-        <input class="form-control" id="inputDescription" name="Description" rows="10" cols="10" placeholder="Enter description"></textarea>
-      </div>
-      <br/><br/>
-      <div class="col-md-6">
-        <label for="inputDate" class="form-label">Date : </label>
-        <input class="form-control" id="inputDate" name="Date" rows="10" cols="10" placeholder="Enter date"></textarea>
-      </div>
-      <br/><br/>
-      <div class="col-md-6">
-        <label for="inputSession" class="form-label">Session : </label>
-        <input class="form-control" id="inputSession" name="Session" rows="10" cols="10" placeholder="Enter session"></textarea>
-      </div>
+   <p class="h3 text-center">Booking Form</p>
+<br/>
+<form method="POST" class="container text-left" >
+   <form class="row g-3">
+     {% csrf_token %}
+     {% for person in person %}
+     <div class="col-md-4">
+      <label for="inputProgramme" class="form-label">{{ person.Email }}</label>
       <br/>
-      <div class="col-12">
-        <button type="submit" class="btn btn-success" value="Workshop">Create</button>
-      </div>
-      {% if messages %}
-      {% for msg in messages %}
-      <b>{{msg}}</b>
-      {% endfor %}
-      {% endif %}
-    </form>
-   </form>
-  {% endblock %}
-
+    {% endfor %}
+    <br/>
+  <div class="container">
+    {% for data in data %}
+     <div class="col-md-4">
+      <label for="inputProgramme" class="form-label">Programme Name : </label>
+      <select id="inputProgramme" class="form-select" name="ProgrammeName">
+        <option selected>-Select-</option>
+        <option name="ProgrammeName" value="{{ data.ProgrammeName }}">{{data.ProgrammeName}}</option>
+      </select>
+    </div>
+      <br/>
+      <div class="col-md-4">
+        <label for="inputDate" class="form-label">Description : </label>
+        <select id="inputDate" class="form-select" name="Date">
+          <option selected>-Select-</option>
+          <option name="Date" value="{{ data.Date }}">{{data.Description}}</option>
+        </select>
+      </div><br/>
+    <div class="col-md-4">
+        <label for="inputDate" class="form-label">Date : </label>
+        <select id="inputDate" class="form-select" name="Date">
+          <option selected>-Select-</option>
+          <option name="Date" value="{{ data.Date }}">{{data.Date}}</option>
+        </select>
+      </div><br/>
+    <div class="col-md-4">
+      <label for="inputSession" class="form-label">Session : </label>
+      <select id="inputSession" class="form-select" name="Session">
+        <option selected>-Select-</option>
+        <option name="Session" value="{{ data.Session }}">{{ data.Session }}</option>
+      </select>
+    </div>
+    {% endfor %}
+<br/><br/>
+    <div class="col-12">
+      <button type="submit" class="btn btn-success " value="Booking">Booking</button>
+    </div>
+    <br/><br/>
+    {% if messages %}
+    {% for msg in messages %}
+    <b>{{msg}}</b>
+    {% endfor %}
+    {% endif %}
+    <br/><br/>
+  </form>
+</form>

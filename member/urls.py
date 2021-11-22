@@ -38,6 +38,7 @@ urlpatterns = [
 
     path('',views.Indexpage),
     path('Home',views.homepage, name="Home"),
+    path('HomeAdmin',views.homepageAdmin, name="HomeAdmin"),
     path('Registration', views.UserReg, name="Reg"),
     path('Loginpage', views.loginpage, name="Loginpage"),
     path('Logout',views.logout, name="Logout"),
@@ -60,8 +61,9 @@ urlpatterns = [
     path('MainSearchbar', views.MainSearchbar, name='MainSearchbar'),
 
     path('workshop.html',views.workshop, name="Workshop"),
-    #path('templates\Booking',views.booking, name="Booking"),
+    path('booking',views.booking, name="Booking"),
     path('CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
+    path('BookWorkshop.html',views.BookWorkshop, name="BookWorkshop"),
 
     url(r'^api/users_list/$', UserList.as_view(), name='user_list'),
     #url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),

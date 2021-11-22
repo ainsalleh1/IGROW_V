@@ -38,7 +38,9 @@ def homepage(request):
     person = Person.objects.filter(Email=request.session['Email'])
     return render(request, 'homepage.html',{'person': person })
 
-
+def homepageAdmin(request):
+    person = Person.objects.filter(Email=request.session['Email'])
+    return render(request, 'homepageAdmin.html',{'person': person })
 
 
 #user registration
@@ -60,6 +62,7 @@ def UserReg(request):
         UserLevel = request.POST.get("UserLevel")
         Person(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
             Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel).save(),
+
         #cuba
         # FarmingPerson(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
         #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus).save(),
@@ -74,11 +77,17 @@ def UserReg(request):
 def loginpage(request):
     if request.method == "POST":
         try:
+            #UserLevel = Person.objects.get(Userlevel = request.POST['UserLevel'])
             Userdetails = Person.objects.get(Email = request.POST['Email'], Password = (request.POST['Pwd']))
+            UserLevel = (request.POST.get('UserLevel'))
             print("Username", Userdetails)
             request.session['Email'] = Userdetails.Email
             person = Person.objects.filter(Email = request.POST['Email'])
-            return render(request,'homepage.html',{'person' : person})
+            request.session['UserLevel'] = Userdetails.UserLevel
+            if request.session['UserLevel'] == '2':
+                return render(request,'homepage.html',{'person' : person})
+            else:
+                return render(request,'homepageAdmin.html',{'person' : person})
         except Person.DoesNotExist as e:
             messages.success(request,'Username/Password Invalid..!')
     return render(request,'login.html')
@@ -280,6 +289,13 @@ def workshop(request):
             return render(request,'workshop.html',{'data':data})
         except Workshop.DoesNotExist:
             raise Http404('Data does not exist')
+
+def BookWorkshop(request):
+        try:
+            data=Workshop.objects.all()
+            return render(request,'BookWorkshop.html',{'data':data})
+        except Workshop.DoesNotExist:
+            raise Http404('Data does not exist')
             
 def createWorkshop(request):
     if request.method=='POST':
@@ -294,8 +310,8 @@ def createWorkshop(request):
         return render(request,'CreateWorkshop.html')
 
 def booking(request):
-    #person = Person.objects.filter(Email=request.session['Email'])
-    #return render(request, 'booking.html',{'person': person})
+    person = Person.objects.filter(Email=request.session['Email'])
+    return render(request, 'booking.html',{'person': person})
 
     try:
         data=Workshop.objects.all() #filter(ProgrammeName=request.session['ProgrammeName'])

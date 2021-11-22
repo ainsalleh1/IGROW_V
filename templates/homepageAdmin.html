@@ -19,26 +19,17 @@
   <div>
     <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist" >
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'Home' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'HomeAdmin' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="sharing-tab" data-bs-toggle="tab" href="{% url 'MainSharing' %}" role="tab" aria-controls="sharing" aria-selected="true">Sharing</a>
+        <a class="nav-link active" id="sharing-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="sharing" aria-selected="true">User</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href=" {% url 'MainGroup' %}" role="tab" aria-controls="discussion" aria-selected="true">Group</a>
+        <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="discussion" aria-selected="true">Booking</a>
       </li>
       <li class="nav-item" role="presentation">
-       <a class="nav-link active" id="friends-tab" data-bs-toggle="tab" href="{% url 'MainMember' %}" role="tab" aria-controls="friends" aria-selected="true">Member</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'BookWorkshop' %}"role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
+        <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'Workshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
        </li>
-       <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="{% url 'View' %}" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-       </li>
-      </li>
-      <li>
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
       </li>
     </ul>
   </div>
@@ -95,6 +86,16 @@
     </div>
     <div class="col">
       <div class="card" style="width: 20rem;">
+        <img src="https://img.freepik.com/free-vector/people-following-each-other-concept-illustration_52683-23637.jpg?size=626&ext=jpg" class="card-img-top img-thumbnail" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Suggestion</h5>
+          <p class="card-text">iGROW trainees can find farmers near them or their trainees friends because this system provides those features.</p>
+          <a href="#" class="card-link">Read More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="width: 20rem;">
         <img src="https://image.freepik.com/free-vector/business-concept-sales-chart-flat-illustration_9041-213.jpg" class="card-img-top img-thumbnail" alt="...">
         <div class="card-body">
           <h5 class="card-title">Sales</h5>
@@ -103,33 +104,8 @@
         </div>
       </div>
     </div>
-    <div class="col">
-      <div class="card" style="width: 20rem;">
-        <img src="https://img.freepik.com/free-vector/people-following-each-other-concept-illustration_52683-23637.jpg?size=626&ext=jpg" class="card-img-top img-thumbnail" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Logout</h5>
-          <p class="card-text">iGROW trainees can find farmers near them or their trainees friends because this system provides those features.</p>
-          <a href="{% url 'Logout' %}" class="card-link">Logout</a>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 </div>         
 <hr/>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
