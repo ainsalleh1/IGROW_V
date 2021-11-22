@@ -15,13 +15,14 @@ from cryptography.fernet import Fernet
 #from django.views.decorators.csrf import csrf_exempt
 
 from group.models import Group
-# from .models import Person
+from member.models import Person
 
 #group
 def mainGroup(request):
     try:
         group=Group.objects.all()
-        return render(request,'MainGroup.html',{'group':group})
+        person = Person.objects.filter(UserLevel=request.session['UserLevel'])
+        return render(request,'MainGroup.html',{'group':group, 'person':person})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 

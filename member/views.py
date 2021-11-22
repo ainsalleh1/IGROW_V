@@ -85,6 +85,7 @@ def loginpage(request):
             person = Person.objects.filter(Email = request.POST['Email'])
             request.session['UserLevel'] = Userdetails.UserLevel
             if request.session['UserLevel'] == '2':
+            #user = Person.objects.filter(UserLevel = request.Post['UserLevel'])
                 return render(request,'homepage.html',{'person' : person})
             else:
                 return render(request,'homepageAdmin.html',{'person' : person})
@@ -189,6 +190,13 @@ def mainGroup(request):
     try:
         group=Group.objects.all()
         return render(request,'MainGroup.html',{'group':group})
+    except Group.DoesNotExist:
+        raise Http404('Data does not exist')
+
+def GroupAdmin(request):
+    try:
+        group=Group.objects.all()
+        return render(request,'CreategroupAdmin.html',{'group':group})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
@@ -310,24 +318,24 @@ def createWorkshop(request):
         return render(request,'CreateWorkshop.html')
 
 def booking(request):
-    person = Person.objects.filter(Email=request.session['Email'])
-    return render(request, 'booking.html',{'person': person})
+    #person = Person.objects.filter(Email=request.session['Email'])
+    #return render(request, 'booking.html',{'person': person})
 
-    try:
-        data=Workshop.objects.all() #filter(ProgrammeName=request.session['ProgrammeName'])
-        return render(request,'booking.html',{'data':data})
-    except Workshop.DoesNotExist:
-        raise Http404('Data does not exist')
+    #try:
+    #    data=Workshop.objects.all() #filter(ProgrammeName=request.session['ProgrammeName'])
+    #    return render(request,'booking.html',{'data':data})
+    #except Workshop.DoesNotExist:
+    #    raise Http404('Data does not exist')
 
-    #if request.method=='POST':
-    #    ProgrammeName=request.POST.get('ProgrammeName')
-    #    Date=request.POST.get('Date')
-     #   Session=request.POST.get('Session')
-     #   Workshop(ProgrammeName=ProgrammeName,Date=Date,Session=Session).save(),
-     #   messages.success(request,'The booking of ' + request.POST['ProgrammeName'] + " is save succesfully..!")
-     #   return render(request,'booking.html')
-    #else :
-     #   return render(request,'booking.html')
+    if request.method=='POST':
+        ProgrammeName=request.POST.get('ProgrammeName')
+        Date=request.POST.get('Date')
+        Session=request.POST.get('Session')
+        Workshop(ProgrammeName=ProgrammeName,Date=Date,Session=Session).save(),
+        messages.success(request,'The booking of ' + request.POST['ProgrammeName'] + " is save succesfully..!")
+        return render(request,'booking.html')
+    else :
+       return render(request,'booking.html')
 
     #data = Workshop.objects.all#filter(ProgrammeName=request.session['ProgrammeName'])
     #return render(request, 'booking.html',{'data': data})

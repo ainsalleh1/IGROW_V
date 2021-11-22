@@ -28,30 +28,28 @@
 
    <b>
     <div>
-      <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist" >
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'Home' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="sharing-tab" data-bs-toggle="tab" href="{% url 'MainSharing' %}" role="tab" aria-controls="sharing" aria-selected="true">Sharing</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="{% url 'MainGroup' %}" role="tab" aria-controls="discussion" aria-selected="true">Group</a>
-        </li>
-        <li class="nav-item" role="presentation">
-         <a class="nav-link active" id="friends-tab" data-bs-toggle="tab" href="{% url 'MainMember' %}" role="tab" aria-controls="friends" aria-selected="true">Member</a>
-        </li>
-        <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'BookWorkshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
-         </li>
-         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="{% url 'View' %}" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-         </li>
-        </li>
-      </ul>
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist" >
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="{% url 'HomeAdmin' %}" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="sharing-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="sharing" aria-selected="true">User</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="{% url 'GroupAdmin' %}" role="tab" aria-controls="discussion" aria-selected="true">Group</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="" role="tab" aria-controls="discussion" aria-selected="true">Booking</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'Workshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
+             </li>
+            </li>
+          </ul>
     </div>
   <br/>
 
+  {% block content %}
   <div class="container">
     <div class="row">
       <div class="col-sm">
@@ -63,32 +61,46 @@
                           <div class="container my-3 bg-light">
                             <label for="exampleFormControlTextarea1" style="font-size: 2em;" >Group</label>
                           </div>
-
+  
+                          <div class="col-12">
+                            <a href="{% url 'Group' %}" class="link-primary">New Group</a> 
+                          </div><tr></tr>
+                          <!-- <div class="col-12">
+                            <a href="{% url 'MyGroup' %}" class="link-primary">View Group Details</a> 
+                          </div> -->
+                          <br/>
+                          {% endblock content %}
                           {% block body %}
 
 <form action="{% url 'Group' %}" method="POST" class="center">
-  
+  {% csrf_token %}
         <div class="container">
           <div class="row">
             <table class="table caption-top">
               <thead>
                 <tr>
-                  <th scope="col">Username</th>
-                  <th scope="col">List Group</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">About</th>
+                  <th scope="col">Media</th>
+                  <th scope="col">Detail</th>
                 </tr>
               </thead>
               <tbody>
-                {% for person in person %}
-                <tr>
-                  <th scope="row" value="{{ Person.Username }}">{{ person.Username }}</th>
-                {% endfor %}
                 {% for group in group %}
+                <tr>
                   <th scope="row" value="{{ Group.Name }}">{{ group.Name }}</th>
+                  <th scope="row" value="{{ Group.About }}">{{ group.About }}</th>
+                  <th scope="row" value="{{ Group.Media }}">{{ group.Media }}</th>
+                  <td>
+                    <button type="submit" class="btn btn-success " value="Add">Add</button>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
       </div>
 </form>
-{% endblock %}
-   </html>
+{% endblock body %}
+</body>
+</html>
+

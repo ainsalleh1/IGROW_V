@@ -53,6 +53,7 @@ urlpatterns = [
     path('MainGroup.html',views.mainGroup, name="MainGroup"),
     path('group.html',views.group, name="Group"),
     path('MyGroup.html',views.myGroup, name="MyGroup"),
+    path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
 
     path('MainMember.html', views.mainMember, name="MainMember"),
     path('member.html',views.member, name="member"),
@@ -61,13 +62,13 @@ urlpatterns = [
     path('MainSearchbar', views.MainSearchbar, name='MainSearchbar'),
 
     path('workshop.html',views.workshop, name="Workshop"),
-    path('booking',views.booking, name="Booking"),
+    path('booking.html',views.booking, name="Booking"),
     path('CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
     path('BookWorkshop.html',views.BookWorkshop, name="BookWorkshop"),
 
     url(r'^api/users_list/$', UserList.as_view(), name='user_list'),
     #url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),
-    #url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
+    url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
     #url(r'^rest-auth/', include('rest_auth.urls')),
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
 
