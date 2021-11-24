@@ -17,6 +17,8 @@ urlpatterns = [
     path('MainGroup.html', views.mainGroup, name="MainGroup"),
     path('group.html', views.group, name="Group"),
     path('MyGroup.html',views.myGroup, name="MyGroup"),
+    path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
+    path('EditGroup.html',views.updateGroup, name="updateGroup"),
  
 
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

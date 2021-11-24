@@ -15,11 +15,13 @@ from cryptography.fernet import Fernet
 from workshop.models import Workshop
 from group.models import Group
 from .models import Person
+from .models import Users
 from member.models import Member
 from sharing.models import Feed
 from rest_framework.permissions import AllowAny
-from member.serializers import MyTokenObtainPairSerializer
+from member.serializers import MyTokenObtainPairSerializer, UsersSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+import requests
 #from member.models import Users 
 #from .serializers import UsersSerializer 
 #from rest_framework import viewsets
@@ -97,6 +99,12 @@ def loginpage(request):
             messages.success(request,'Username/Password Invalid..!')
     return render(request,'login.html')
 
+#def UserList(request):
+#    try:
+#        UserList = Person.objects.all()
+#        request.session['UserLevel'] = UserList.UserLevel
+#        if request.
+
 def logout(request):
     try:
         del request.session['Email']
@@ -149,12 +157,12 @@ def sharing(request):
     else :
         return render(request,'sharing.html')
 
-#def viewSharing(request):
-    #feed = Feed.objects.all()
-    #return render(request,'ViewSharing.html',{'feed':feed})  
+def viewSharing(request):
+    feed = Feed.objects.all()
+    return render(request,'ViewSharing.html',{'feed':feed})  
 
 def updateSharing(request):
-    #feed = Feed.objects.filter(Title=request.session['Title'])
+    feed = Feed.objects.filter(Title=request.session['Title'])
     if request.method=='POST':
        f = Feed.objects.get(Title=request.session['Title'])
        f.Title=request.POST['Title']
@@ -216,11 +224,28 @@ def group(request):
         return render(request,'group.html')
 
 def myGroup(request):
-    #try:
-    #    group=Group.objects.filter(Name=request.session['Name'])
-        return render(request,'MyGroup.html')#{'group':group})
-    #except Group.DoesNotExist:
-     #   raise Http404('Data does not exist')
+    try:
+        person = Person.objects.filter(Email=request.session['Email'])
+        group = Group.objects.filter(Name=request.session['Name'])
+        return render(request,'MyGroup.html',{'person':person, 'group':group})
+
+    except Group.DoesNotExist:
+        raise Http404('Data does not exist')
+
+def updateGroup(request):
+    group = Group.objects.filter(Name=request.session['Name'])
+    if request.method=='POST':
+       f = Group.objects.get(Name=request.session['Name'])
+       f.Name=request.POST['Name']
+       f.About=request.POST.get('About')
+       f.Media=request.POST.get('Media')
+       f.save()
+       messages.success(request,'Group ' + request.POST['Name'] + " details is updated..!")
+       return render(request,'MainGroup.html')
+    else:
+        return render(request, 'homepage.html', {'group':group})
+
+
 
 
 
@@ -345,8 +370,8 @@ def booking(request):
     #return render(request, 'booking.html',{'data': data})
 
 #class Users(viewsets.ModelViewSet):
-#   queryset = Users.objects.all() 
-#  serializer_class = UsersSerializer
+#    queryset = Users.objects.all() 
+#    serializer_class = UsersSerializer
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)

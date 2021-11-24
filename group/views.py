@@ -26,6 +26,13 @@ def mainGroup(request):
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
+def GroupAdmin(request):
+    try:
+        group=Group.objects.all()
+        return render(request,'CreategroupAdmin.html',{'group':group})
+    except Group.DoesNotExist:
+        raise Http404('Data does not exist')
+
 
 def group(request):
     if request.method=='POST':
@@ -41,7 +48,19 @@ def group(request):
 
 def myGroup(request):
     try:
-        group=Group.objects.filter(Name=request.session['Name'])
+        group = Person.objects.get(Username=request.session['Username'])
         return render(request,'MyGroup.html',{'group':group})
     except Group.DoesNotExist:
        raise Http404('Data does not exist')
+
+def updateGroup(request):
+    if request.method=='POST':
+       f = Group.objects.get(Name=request.session['Name'])
+       f.Name=request.POST['Name']
+       f.About=request.POST.get('About')
+       f.Media=request.POST.get('Media')
+       f.save()
+       messages.success(request,'Group ' + request.POST['Name'] + " details is updated..!")
+       return render(request,'MainGroup.html')
+    else:
+        return render(request, 'homepage.html', {group:Group})

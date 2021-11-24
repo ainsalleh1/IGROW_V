@@ -78,11 +78,11 @@
                 </tr>
               </thead>
               <tbody>
-                {% for person in person %}
+                {% for person==person.Username in person %}
                 <tr>
-                  <th scope="row" value="{{ Person.Username }}">{{ person.Username }}</th>
+                  <th scope="row" value="{{ person.Username }}">{{ person.Username }}</th>
                 {% endfor %}
-                {% for group in group %}
+                {% for group==group.Name in group %}
                   <th scope="row" value="{{ Group.Name }}">{{ group.Name }}</th>
                 </tr>
                 {% endfor %}

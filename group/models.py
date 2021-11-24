@@ -11,3 +11,7 @@ class Group(models.Model):
     Name = models.CharField(max_length=150)
     About = models.CharField(max_length=1000)
     Media = models.FileField(upload_to='uploads/',default="")
+
+    def save(self):
+        super().save()
+        super().save(using='farming')

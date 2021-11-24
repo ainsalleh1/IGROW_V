@@ -48,14 +48,15 @@ urlpatterns = [
 
     path('MainSharing.html',views.mainSharing, name="MainSharing"),
     path('sharing.html',views.sharing, name="Sharing"),
-    #path('ViewSharing',views.viewSharing,name="ViewSharing"),
-    #path('templates\UpdateSharing',views.updateSharing, name="UpdateSharing"),
+    path('ViewSharing',views.viewSharing,name="ViewSharing"),
+    path('UpdateSharing',views.updateSharing, name="UpdateSharing"),
     path('DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
 
     path('MainGroup.html',views.mainGroup, name="MainGroup"),
     path('group.html',views.group, name="Group"),
     path('MyGroup.html',views.myGroup, name="MyGroup"),
     path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
+    path('EditGroup.html',views.updateGroup, name="EditGroup"),
 
     path('MainMember.html', views.mainMember, name="MainMember"),
     path('member.html',views.member, name="member"),

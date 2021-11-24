@@ -2,6 +2,7 @@ from django.db import models, migrations
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib.syndication.views import Feed
+from django.shortcuts import render
 
 # Create your models here.
 
@@ -26,7 +27,7 @@ class Feed(models.Model):
 
         context= {'videofile': videofile, 'form': form}
 
-        return render(request, 'LOGIN/sharing.html', context)
+        return render(request, 'sharing.html', context)
     #def __str__(self):
        # return self.Message + ": " + str(self.videofile)
 
