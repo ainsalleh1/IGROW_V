@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
+from rest_framework import serializers
 from rest_framework.permissions import AllowAny
 # from .forms import CreateInDiscussion, PersonForm, UserUpdateForm
 from django.urls import reverse
@@ -16,6 +17,9 @@ from group.models import Group
 from .models import Person
 from member.models import Member
 from sharing.models import Feed
+from rest_framework.permissions import AllowAny
+from member.serializers import MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 #from member.models import Users 
 #from .serializers import UsersSerializer 
 #from rest_framework import viewsets
@@ -343,4 +347,9 @@ def booking(request):
 #class Users(viewsets.ModelViewSet):
 #   queryset = Users.objects.all() 
 #  serializer_class = UsersSerializer
+
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializers_class = MyTokenObtainPairSerializer
+
 

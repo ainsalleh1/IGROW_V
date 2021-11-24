@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Person
 from .models import Users
 from rest_framework.exceptions import NotAuthenticated
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UsersSerializer(serializers.ModelSerializer):
     #username = serializers.CharField(required=False)
@@ -12,21 +13,21 @@ class UsersSerializer(serializers.ModelSerializer):
     Email = serializers.CharField(required=False)
     # Pwd = models.CharField(max_length=150)
     Password = serializers.CharField(required=False)
-    Username = serializers.CharField(required=False)
-    Name =serializers.CharField(required=False)
-    DateOfBirth = serializers.CharField(required=False)
-    Age = serializers.IntegerField (required=False)
-    District = serializers.CharField(required=False)
-    State = serializers.CharField(required=False)
-    Occupation = serializers.CharField(required=False)
-    About = serializers.CharField(required=False)
-    Gender = serializers.CharField(required=False)
-    MaritalStatus = serializers.CharField(required=False)
+    #Username = serializers.CharField(required=False)
+    #Name =serializers.CharField(required=False)
+    #DateOfBirth = serializers.CharField(required=False)
+    #Age = serializers.IntegerField (required=False)
+    ##District = serializers.CharField(required=False)
+    #State = serializers.CharField(required=False)
+    #Occupation = serializers.CharField(required=False)
+    #About = serializers.CharField(required=False)
+    #Gender = serializers.CharField(required=False)
+    #MaritalStatus = serializers.CharField(required=False)
 
     class Meta:
         model = Person
-        fields = ['name', 'password',]
-        fields = '__all__'
+        fields = ['Email', 'Password',]
+        #fields = '__all__'
         #extra_kwargs = {'password': {'write_only': True}}
 
     #def validate(self, data):
@@ -36,3 +37,15 @@ class UsersSerializer(serializers.ModelSerializer):
         #    return True
 
         #raise NotAuthenticated
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+        @classmethod
+
+        def get_token(cls, user):
+            token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+
+        # Add custom claims
+            token['username'] = user.username
+            return token
+

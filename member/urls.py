@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from django.contrib import admin, auth
 from django.urls import path
 from django.conf.urls import url, include
 #from LOGIN import views
@@ -21,6 +21,8 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework import authentication
+from rest_framework_simplejwt.views import TokenRefreshView
 
 #from LOGIN.views import UserReg, sharing, discussion, view, workshop, booking, member
 from .import views
@@ -68,10 +70,12 @@ urlpatterns = [
 
     url(r'^api/users_list/$', UserList.as_view(), name='user_list'),
     #url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),
-    url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
+    #url(r'^api/auth/$', UserAuthentication.as_view(), name='auth'),
     #url(r'^rest-auth/', include('rest_auth.urls')),
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
-
+    path('login/', views.MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
+    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()

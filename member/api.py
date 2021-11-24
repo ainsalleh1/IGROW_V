@@ -9,12 +9,35 @@ from rest_framework import status
 from .serializers import *
 
 class UserAuthentication(ObtainAuthToken):
+    #authentication_classes = (TokenAuthentication)
+    #permission_classes = ([AllowAny,SessionAuthentication, BasicAuthentication])
+    #authentication_classes = ([IsAuthenticated])
+    #http_method_names = ['get', 'head']
+
+    #def get(self, request):
+    #    model =Person.objects.all()
+    #    serializer = UsersSerializer(model, many=True)
+    #    return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         return Response(token.key)
+        #print(token.key)
+
+    #def get(self, request, format=None):
+    #    content = {
+    #        'user':str(request.user),
+    #        'auth':str(request.auth)
+    #    }
+    #    return Response(content)
+
+    #def get(self, request):
+    #    model =Person.objects.all()
+    #    serializer = UsersSerializer(model, many=True)
+    #    return Response(serializer.data)
 
 class UserList(APIView):
 
