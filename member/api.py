@@ -23,8 +23,8 @@ class UserAuthentication(ObtainAuthToken):
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response(token.key)
+        token, created = Token.objects.get(user=user).key
+        return Response(token)
         #print(token.key)
 
     #def get(self, request, format=None):
@@ -42,7 +42,7 @@ class UserAuthentication(ObtainAuthToken):
 class UserList(APIView):
 
     permission_classes = ([AllowAny,])
-    authentication_classes = ([])
+    #authentication_classes = ([])
 
     def get(self, request):
         model =Person.objects.all()

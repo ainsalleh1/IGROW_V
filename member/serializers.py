@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Person
-from .models import Users
 from rest_framework.exceptions import NotAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -26,7 +25,7 @@ class UsersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
-        fields = ['Email', 'Password',]
+        fields = ['Email', 'Password']
         #fields = '__all__'
         #extra_kwargs = {'password': {'write_only': True}}
 
@@ -37,6 +36,15 @@ class UsersSerializer(serializers.ModelSerializer):
         #    return True
 
         #raise NotAuthenticated
+
+        #def create(self, validated_data):
+        #    return Person.objects.create(validated_data)
+        
+        #def update(self, instance, validated_data):
+        #    instance.Email = validated_data.get('Email', instance.Email)
+        #    instance.Passwrod = validated_data.get('Password', instance.Password)
+        #    instance.save()
+        #    return instance
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 

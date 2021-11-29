@@ -61,6 +61,10 @@
   {% csrf_token %}
       <div class="form-row field-Email mb-3 row">
       {% for person in person %}
+      <div>
+        <label for="inputImage"></label>
+        <input type="file" class="form-control" id="inputMedia" name="  Photo" value="{{ person.photo }}">
+      </div>
         <div>
           <label class="required" for="id_Email">Email:</label>
             <input type="text" name="Email" value="{{ person.Email }}"  class="vTextField" maxlength="150" required="" id="id_Email">

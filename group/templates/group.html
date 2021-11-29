@@ -61,17 +61,17 @@
       {% csrf_token %}
       <div class="col-md-4">
        <label for="inputName" class="form-label">Name : </label>
-       <input type="text" name="Name" value="{{ Group.Name }}"  class="vTextField" maxlength="150" required="" id="id_Name">
+       <input type="text" name="GName" value="{{ Group.GName }}"  class="vTextField" maxlength="150" required="" id="id_Name">
       </div>
        <br/>
        <div class="col-12">
         <label for="inputAbout" class="form-label">About : </label>
-        <input type="text" name="About" value="{{ Group.About }}"  class="vTextField" maxlength="150" required="" id="id_About">
+        <input type="text" name="GAbout" value="{{ Group.GAbout }}"  class="vTextField" maxlength="150" required="" id="id_About">
        </div>
       <br/>
        <div class="col-12">
         <label for="inputImage" class="form-label">Media : </label>
-        <input type="file" class="form-control" id="inputMedia" name="Media" placeholder="Enter Media">
+        <input type="file" class="form-control" id="inputMedia" name="GMedia" placeholder="Enter Media">
       </div>
       <br/>
       </div>

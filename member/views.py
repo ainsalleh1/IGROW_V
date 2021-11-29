@@ -2,11 +2,12 @@ from django.http.response import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django import forms
-from rest_framework import serializers
+from rest_framework import authentication, serializers
 from rest_framework.permissions import AllowAny
 # from .forms import CreateInDiscussion, PersonForm, UserUpdateForm
+from rest_framework.parsers import JSONParser
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
@@ -15,7 +16,6 @@ from cryptography.fernet import Fernet
 from workshop.models import Workshop
 from group.models import Group
 from .models import Person
-from .models import Users
 from member.models import Member
 from sharing.models import Feed
 from rest_framework.permissions import AllowAny
@@ -23,7 +23,7 @@ from member.serializers import MyTokenObtainPairSerializer, UsersSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 import requests
 #from member.models import Users 
-#from .serializers import UsersSerializer 
+from .serializers import UsersSerializer 
 #from rest_framework import viewsets
 # def encryptPassword(Pwd):
 #         key = Fernet.generate_key()
@@ -36,6 +36,26 @@ import requests
 #         fernet = Fernet(key)
 #         decrypted = fernet.decrypt(Pwd).decode()
 #         return decrypted
+
+def user_list(request):
+
+    if request.method == 'GET':
+        person = Person.objects.all()
+        serializer = UsersSerializer(person, many=True)
+        return JsonResponse(serializers.data, safe=False)
+
+    else:
+        request.method == 'POST'
+        data = JSONParser().parse(request)
+        serializer = UsersSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status = 201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+
 
 def Indexpage(request):
     return render(request, 'index.html')
@@ -54,7 +74,6 @@ def UserReg(request):
     if request.method=='POST':
         Email=request.POST['Email']
         Pwd=request.POST['Pwd']
-
         Username=request.POST.get('Username')
         Name=request.POST.get('Name')
         DateOfBirth=request.POST.get('DateOfBirth')
@@ -66,8 +85,16 @@ def UserReg(request):
         Gen=request.POST.get('Gender')
         MaritalStatus=request.POST.get('MaritalStatus')
         UserLevel = request.POST.get("UserLevel")
+        Photo = request.POST.get('Photo')
+        #resume = request.POST.get('resume')
         Person(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
-            Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel).save(),
+            Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel,Photo=Photo).save(),
+
+        #ranking = request.POST.get('ranking')
+        
+        #Users(Person, ranking=ranking)
+        #Users.upload_photo(Person, photo)
+        #Users.upload_file(Person, resume)
 
         #cuba
         # FarmingPerson(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
@@ -80,6 +107,8 @@ def UserReg(request):
         return render(request,'registration.html')
 
 
+
+#user login
 def loginpage(request):
     if request.method == "POST":
         try:
@@ -99,12 +128,7 @@ def loginpage(request):
             messages.success(request,'Username/Password Invalid..!')
     return render(request,'login.html')
 
-#def UserList(request):
-#    try:
-#        UserList = Person.objects.all()
-#        request.session['UserLevel'] = UserList.UserLevel
-#        if request.
-
+#user logout
 def logout(request):
     try:
         del request.session['Email']
@@ -128,11 +152,12 @@ def view(request):
        t.About=request.POST['About']
        t.Gen=request.POST.get('Gender')
        t.MaritalStatus=request.POST.get('MaritalStatus')
+       t.photo=request.POST.get('photo')
        t.save()
+
        return render(request,'homepage.html')
     else:
         return render(request, 'profile.html',{'person': person})  
-
 
 
 
@@ -214,9 +239,9 @@ def GroupAdmin(request):
 
 def group(request):
     if request.method=='POST':
-        Name=request.POST.get('Name')
-        About=request.POST.get('About')
-        Media=request.POST.get('Media')
+        Name=request.POST.get('GName')
+        About=request.POST.get('GAbout')
+        Media=request.POST.get('GMedia')
         Group(Name=Name,About=About,Media=Media).save(),
         messages.success(request,'The new group ' + request.POST['Name'] + " is create succesfully..!")
         return render(request,'group.html')
@@ -226,22 +251,25 @@ def group(request):
 def myGroup(request):
     try:
         person = Person.objects.filter(Email=request.session['Email'])
-        group = Group.objects.filter(Name=request.session['Name'])
+        group = Group.objects.filter(Name=request.session['GName'])
         return render(request,'MyGroup.html',{'person':person, 'group':group})
 
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
-def updateGroup(request):
-    group = Group.objects.filter(Name=request.session['Name'])
+def updateGroup(request, pk):
+    #group = Group.objects.filter(Name=request.session['GName'])
+    group = Group.objects.get(pk=pk)
     if request.method=='POST':
-       f = Group.objects.get(Name=request.session['Name'])
-       f.Name=request.POST['Name']
-       f.About=request.POST.get('About')
-       f.Media=request.POST.get('Media')
-       f.save()
-       messages.success(request,'Group ' + request.POST['Name'] + " details is updated..!")
-       return render(request,'MainGroup.html')
+       #f = Group.objects.get(Name=request.session['GName'])
+        f = Group.objects.get(pk=pk)
+        f.GName=request.POST.get('GName')
+        f.GAbout=request.POST.get('GAbout')
+        f.GMedia=request.POST.get('GMedia')
+        f.save()
+        messages.success(request,"Group details is updated..!")
+        return render(request,'MainGroup.html')
+
     else:
         return render(request, 'homepage.html', {'group':group})
 
@@ -375,6 +403,15 @@ def booking(request):
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
+    #authentication_class = 
+    Email = serializers.CharField(required=False)
+    username = Email
     serializers_class = MyTokenObtainPairSerializer
+    def get_token(cls, user):
+            token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+
+        # Add custom claims
+            token['username'] = user.Email
+            return token
 
 

@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.contrib.syndication.views import Feed
 
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
 class Person(models.Model):
     Email = models.CharField(max_length=150)
     # Pwd = models.CharField(max_length=150)
@@ -18,6 +23,8 @@ class Person(models.Model):
     Gender = models.CharField(max_length=1)
     MaritalStatus = models.CharField(max_length=150)
     UserLevel = models.CharField(max_length=1)
+    Photo = models.ImageField(null=True, blank=True)
+    #resume = models.ImageField(null=True, blank=True)
 
     def save(self):
         super().save()
@@ -25,6 +32,10 @@ class Person(models.Model):
 
     class Meta:
         db_table = 'login_person'
+        #fields = ['Email', 'Password']
+    
+    USERNAME_FIELD = 'Email'
+    REQUIRED_FIELDS = ['username']
         
 def user_form(sender, instance, created, **kwargs):
     if created:
@@ -64,16 +75,21 @@ class Users(models.Model):
     ranking = models.FloatField() #2.5
 
     def upload_photo(self, filename):
-        path = 'LOGIN/photo/{}'.format(filename)
+        path = 'member/photo/{}'.format(filename)
         return path
 
     photo = models.ImageField(upload_to=upload_photo, null=True, blank=True)
 
     def upload_file(self, filename):
-        path = 'LOGIN/file/{}'.format(filename)
+        path = 'member/file/{}'.format(filename)
         return path
 
     resume = models.ImageField(upload_to=upload_file, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.username} - {self.password}"
+        return f"{self.Username} - {self.Password}"
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)

@@ -27,6 +27,19 @@
 <form method="POST" class="container text-center" >
   {% csrf_token %}
 
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <div class="col-12">
+        <label for="inputImage" class="form-label">Profile Photo : </label>
+        <input type="file" class="form-control" id="inputMedia" name="Photo" placeholder="Enter Media">
+      </div>
+      
+        <!-- <div class="col-12">
+          <label for="inputImage" class="form-label">Resume : </label>
+          <input type="file" class="form-control" id="inputMedia" name="resume" placeholder="Enter Media">
+        </div> -->
+    </div>
+
     <!-- Email and Password -->
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -40,12 +53,12 @@
         <small id="passwordHelpInline" class="text-muted">Must be 8-20 characters long.</small>
       </div>
 
-      <div class="form-group col-md-6">
+      <!-- <div class="form-group col-md-6">
         <label for="inputUserLevel" class="container text-left" >User Level</label>
         <select name="UserLevel" id="userlevel" placeholder="Enter user level (1 for Admin/2 for User)" required>
           <option value="1">Admin</option>
           <option value="2">User</option>
-        </select>
+        </select> -->
         <!-- <input type="text" class="form-control" id="userlevel" placeholder="Enter user level (1 for User/2 for Admin)" name="UserLevel" required> -->
       </div>
     </div>
@@ -60,6 +73,10 @@
         <label for="inputName" class="container text-left" >Name</label>
         <input type="text" class="form-control" id="name" placeholder="Enter name" name="Name">
       </div>
+      <!-- <div class="form-group col-md-6">
+        <label for="inputRanking" class="container text-left" >Ranking</label>
+        <input type="text" class="form-control" id="ranking" placeholder="Enter ranking" name="ranking">
+      </div> -->
   </div>
 
   <!-- DOB and age -->

@@ -8,9 +8,9 @@ from django.contrib.syndication.views import Feed
 class Group(models.Model):
     class Meta:
         db_table = 'Group'
-    Name = models.CharField(max_length=150)
-    About = models.CharField(max_length=1000)
-    Media = models.FileField(upload_to='uploads/',default="")
+    GName = models.CharField(max_length=150, null=True)
+    GAbout = models.CharField(max_length=1000, null=True)
+    GMedia = models.FileField(upload_to='uploads/',default="")
 
     def save(self):
         super().save()

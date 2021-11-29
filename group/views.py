@@ -53,14 +53,16 @@ def myGroup(request):
     except Group.DoesNotExist:
        raise Http404('Data does not exist')
 
-def updateGroup(request):
+def updateGroup(request, pk=None):
+    #group = Group.objects.filter(Name=request.session['GName'])
+    f = Group.objects.get(pk=pk)
     if request.method=='POST':
-       f = Group.objects.get(Name=request.session['Name'])
-       f.Name=request.POST['Name']
-       f.About=request.POST.get('About')
-       f.Media=request.POST.get('Media')
+       #f = Group.objects.get(Name=request.session['GName'])
+       f.Name=request.POST['GName']
+       f.About=request.POST['GAbout']
+       f.Media=request.POST['GMedia']
        f.save()
-       messages.success(request,'Group ' + request.POST['Name'] + " details is updated..!")
+       messages.success(request,'Group ' + request.POST['GName'] + " details is updated..!")
        return render(request,'MainGroup.html')
     else:
-        return render(request, 'homepage.html', {group:Group})
+        return render(request, 'homepage.html', {'group':group})

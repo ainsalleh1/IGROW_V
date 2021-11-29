@@ -24,6 +24,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework import authentication
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from group.views import updateGroup
+from .views import MyObtainTokenPairView, user_list
+from rest_framework.authtoken.views import obtain_auth_token
+
 #from LOGIN.views import UserReg, sharing, discussion, view, workshop, booking, member
 from .import views
 from django.conf.urls import url
@@ -56,7 +60,10 @@ urlpatterns = [
     path('group.html',views.group, name="Group"),
     path('MyGroup.html',views.myGroup, name="MyGroup"),
     path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
-    path('EditGroup.html',views.updateGroup, name="EditGroup"),
+    #path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
+    path('EditGroup.html/<str:pk>/',views.updateGroup, name="EditGroup"),
+    #url(r'^world/(?P<world_pk>\d+)/(?P<country_pk>\d+)/$'
+    
 
     path('MainMember.html', views.mainMember, name="MainMember"),
     path('member.html',views.member, name="member"),
@@ -71,12 +78,14 @@ urlpatterns = [
 
     url(r'^api/users_list/$', UserList.as_view(), name='user_list'),
     #url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),
-    #url(r'^api/auth/$', UserAuthentication.as_view(), name='auth'),
+    url(r'^api/auth/$', UserAuthentication.as_view(), name='auth'),
     #url(r'^rest-auth/', include('rest_auth.urls')),
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
-    path('login/', views.MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
-    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh')
-    
+    path('login/', MyObtainTokenPairView.as_view(), name='token_obtain_pair'),
+    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('userlist/', views.user_list, name='userlist'),
+    #path('login', obtain_auth_token, name='login')
+
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
