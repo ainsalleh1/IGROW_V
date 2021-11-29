@@ -159,7 +159,10 @@ def view(request):
     else:
         return render(request, 'profile.html',{'person': person})  
 
-
+#list of user for admin view
+def UserList(request):
+    person = Person.objects.all()
+    return render(request, 'UserList.html',{'person': person})  
 
 #sharing
 def mainSharing(request):

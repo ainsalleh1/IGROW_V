@@ -70,6 +70,7 @@ urlpatterns = [
     path('friendlist.html',views.friendlist, name="friendlist"),
     #path('MyMember.html',views.myMember, name="MyMember"),
     path('MainSearchbar', views.MainSearchbar, name='MainSearchbar'),
+    path('UserList', views.UserList, name="UserList"),
 
     path('workshop.html',views.workshop, name="Workshop"),
     path('booking.html',views.booking, name="Booking"),
