@@ -22,7 +22,7 @@ class Person(models.Model):
     About = models.CharField(max_length=150)
     Gender = models.CharField(max_length=1)
     MaritalStatus = models.CharField(max_length=150)
-    UserLevel = models.CharField(max_length=1)
+    UserLevel = models.CharField(max_length=10)
     Photo = models.ImageField(null=True, blank=True)
     #resume = models.ImageField(null=True, blank=True)
 

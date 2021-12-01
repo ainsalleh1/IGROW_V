@@ -1,5 +1,5 @@
 from django.http.response import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, resolve_url
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -14,7 +14,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
 from workshop.models import Workshop
-from group.models import Group
+from group.models import Group, GroupMember
 from .models import Person
 from member.models import Member
 from sharing.models import Feed
@@ -119,7 +119,7 @@ def loginpage(request):
             request.session['Email'] = Userdetails.Email
             person = Person.objects.filter(Email = request.POST['Email'])
             request.session['UserLevel'] = Userdetails.UserLevel
-            if request.session['UserLevel'] == '2':
+            if request.session['UserLevel'] == 'user':
             #user = Person.objects.filter(UserLevel = request.Post['UserLevel'])
                 return render(request,'homepage.html',{'person' : person})
             else:
@@ -229,7 +229,8 @@ def deleteSharing(request,id):
 def mainGroup(request):
     try:
         group=Group.objects.all()
-        return render(request,'MainGroup.html',{'group':group})
+        person = Person.objects.all()
+        return render(request,'MainGroup.html',{'group':group, 'person':person})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
@@ -241,40 +242,49 @@ def GroupAdmin(request):
         raise Http404('Data does not exist')
 
 def group(request):
+    #person_fk = Person.objects.filter()
     if request.method=='POST':
-        Name=request.POST.get('GName')
-        About=request.POST.get('GAbout')
-        Media=request.POST.get('GMedia')
-        Group(Name=Name,About=About,Media=Media).save(),
-        messages.success(request,'The new group ' + request.POST['Name'] + " is create succesfully..!")
-        return render(request,'group.html')
+        GName=request.POST.get('GName')
+        GAbout=request.POST.get('GAbout')
+        GMedia=request.POST.get('GMedia')
+        Group(GName=GName,GAbout=GAbout,GMedia=GMedia).save(),
+        messages.success(request,'The new group ' + request.POST['GName'] + " is create succesfully..!")
+        return render(request,'group.html',)
+
     else :
         return render(request,'group.html')
 
 def myGroup(request):
     try:
-        person = Person.objects.filter(Email=request.session['Email'])
-        group = Group.objects.filter(Name=request.session['GName'])
-        return render(request,'MyGroup.html',{'person':person, 'group':group})
-
+        group = Group.objects.all()
+        Gmember = GroupMember.objects.all()
+        return render(request,'MyGroup.html',{'group':group, 'Gmember':Gmember})
     except Group.DoesNotExist:
-        raise Http404('Data does not exist')
+       raise Http404('Data does not exist')
 
-def updateGroup(request, pk):
+def ViewEditGroup(request):
+    try:
+        group = Group.objects.all()
+        person = Person.objects.all()
+        return render(request,'EditGroup.html',{'group':group, 'person':person})
+    except Group.DoesNotExist:
+       raise Http404('Data does not exist')
+
+
+def updateGroup(request, fk1, fk):
     #group = Group.objects.filter(Name=request.session['GName'])
-    group = Group.objects.get(pk=pk)
+    group = Group.objects.get(pk=fk1)
+    person = Person.objects.get(pk=fk)
     if request.method=='POST':
-       #f = Group.objects.get(Name=request.session['GName'])
-        f = Group.objects.get(pk=pk)
-        f.GName=request.POST.get('GName')
-        f.GAbout=request.POST.get('GAbout')
-        f.GMedia=request.POST.get('GMedia')
-        f.save()
-        messages.success(request,"Group details is updated..!")
-        return render(request,'MainGroup.html')
+        t = Group.objects.get(pk=fk1)
+        f = Person.objects.get(pk=fk)
+        GUsername = request.POST.get('Username')
+        GroupMember(Username=GUsername, Group_fk=t, Person_fk=f).save(),
+        messages.success(request,"Your username is successfully added")
+        return render(request,'EditGroup.html', {'group':group, 'person':person})
 
     else:
-        return render(request, 'homepage.html', {'group':group})
+        return render(request, 'EditGroup.html', {'group':group, 'person':person})
 
 
 

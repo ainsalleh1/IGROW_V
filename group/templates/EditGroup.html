@@ -59,30 +59,15 @@
     {% csrf_token %}
     <form class="row g-3">
       {% csrf_token %}
-      {% for group in group %}
-      <div class="col-md-4">
-       <label for="id_Name" class="form-label">Name : </label>
-       <input type="text" name="GName" value="{{ group.GName }}" class="vTextField" maxlength="150" required="" id="id_Name">{{ group.GName }}
-      </div>
-       <br/>
-       <div class="col-12">
-        <label for="inputAbout" class="form-label">About : </label>
-        <input type="text" name="GAbout" value="{{ group.GAbout }}"  class="vTextField" maxlength="150" required="" id="id_About">{{ group.GAbout }}
-       </div>
-      <br/>
-       <div class="col-12">
-        <label for="inputImage" class="form-label">Media : </label>
-        <input type="file" class="form-control" value="{{ group.GMedia }}"id="inputMedia" name="GMedia">{{ group.GMedia }}
-      </div>
-      <br/>
-      </div>
-        <br/>
-
+        <div class="col-md-4">
+          <label for="inputName" class="form-label">Username : </label>
+          <input type="text" name="Username"  class="vTextField" maxlength="150" required="">
+         </div>
      <div class="col-12">
-       <button type="submit" class="btn btn-success " value="Save">Save</button>
+       <button type="submit" class="btn btn-success " value="Add">Save</button>
        {% csrf_token %}
-       {% endfor %}
      </div>
+    </form>
      <br/><br/>
      {% if messages %}
      {% for msg in messages %}
@@ -90,6 +75,6 @@
      {% endfor %}
      {% endif %}
      <br/><br/>
-   </form>
+   
   </form>
 </html>

@@ -59,6 +59,12 @@
     {% csrf_token %}
     <form class="row g-3">
       {% csrf_token %}
+      <!-- <div class="col-12">
+        {% for person in person %}
+        <label for="inputName" class="form-label">Creator : </label>
+        <input type="text" name="Username" value="{{ person.Username }}"  class="vTextField" maxlength="150" readonly>{{person.Username}}
+        {% endfor %}
+       </div> -->
       <div class="col-md-4">
        <label for="inputName" class="form-label">Name : </label>
        <input type="text" name="GName" value="{{ Group.GName }}"  class="vTextField" maxlength="150" required="" id="id_Name">

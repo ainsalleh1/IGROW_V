@@ -61,7 +61,8 @@ urlpatterns = [
     path('MyGroup.html',views.myGroup, name="MyGroup"),
     path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
     #path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
-    path('EditGroup.html/<str:pk>/',views.updateGroup, name="EditGroup"),
+    path('EditGroup.html/<str:fk1>/<str:fk>/',views.updateGroup, name="EditGroup"),
+    #path('EditGroup.html',views.ViewEditGroup, name="ViewEditGroup"),
     #url(r'^world/(?P<world_pk>\d+)/(?P<country_pk>\d+)/$'
     
 

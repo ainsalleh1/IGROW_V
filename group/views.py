@@ -35,12 +35,13 @@ def GroupAdmin(request):
 
 
 def group(request):
+    person = Person.objects.get(Username=request.session['Username'])
     if request.method=='POST':
-        Name=request.POST.get('Name')
-        About=request.POST.get('About')
-        Media=request.POST.get('Media')
-        Group(Name=Name,About=About,Media=Media).save(),
-        messages.success(request,'The new group ' + request.POST['Name'] + " is create succesfully..!")
+        GName=request.POST.get('GName')
+        GAbout=request.POST.get('GAbout')
+        GMedia=request.POST.get('GMedia')
+        Group(GName=GName,GAbout=GAbout,GMedia=GMedia,GMember=person).save(),
+        messages.success(request,'The new group ' + request.POST['GName'] + " is create succesfully..!")
         return render(request,'group.html')
 
     else :
@@ -48,7 +49,7 @@ def group(request):
 
 def myGroup(request):
     try:
-        group = Person.objects.get(Username=request.session['Username'])
+        group = Group.objects.all()
         return render(request,'MyGroup.html',{'group':group})
     except Group.DoesNotExist:
        raise Http404('Data does not exist')

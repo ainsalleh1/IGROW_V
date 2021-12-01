@@ -78,13 +78,13 @@
                 </tr>
               </thead>
               <tbody>
-                {% for person==person.Username in person %}
+                {% for group in group %}
                 <tr>
-                  <th scope="row" value="{{ person.Username }}">{{ person.Username }}</th>
-                {% endfor %}
-                {% for group==group.Name in group %}
+                  {% for Gmember in Gmember %}
+                  <th scope="row" value="{{ Gmember.Username }}">{{ Gmember.Username }}</th>
                   <th scope="row" value="{{ Group.GName }}">{{ group.GName }}</th>
                 </tr>
+                {% endfor %}
                 {% endfor %}
               </tbody>
             </table>

@@ -76,7 +76,9 @@
                           {% block body %}
 
 {% for group in group %}
-<form action="{% url 'EditGroup' group.id %}" method="POST" class="center">
+{% for person in person %}
+<form action="{% url 'EditGroup' group.id person.id  %}" method="POST" class="center">
+{% endfor %}
 {% endfor %}
   {% csrf_token %}
         <div class="container">
@@ -97,7 +99,7 @@
                   <th scope="row" value="{{ Group.GAbout }}">{{ group.GAbout }}</th>
                   <th scope="row" value="{{ Group.GMedia }}">{{ group.GMedia }}</th>
                   <td>
-                    <button type="submit" class="btn btn-success " value="View">View</button>
+                    <button type="submit" class="btn btn-success " value="View">Join</button>
                   </td>
                 </tr>
                 {% endfor %}

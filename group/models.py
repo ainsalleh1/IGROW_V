@@ -1,7 +1,9 @@
 from django.db import models, migrations
 from django.contrib.auth.models import User
+from django.db.models.deletion import CASCADE
 from django.db.models.signals import post_save
 from django.contrib.syndication.views import Feed
+from member.models import Person
 
 # Create your models here.
 
@@ -11,6 +13,18 @@ class Group(models.Model):
     GName = models.CharField(max_length=150, null=True)
     GAbout = models.CharField(max_length=1000, null=True)
     GMedia = models.FileField(upload_to='uploads/',default="")
+    #Person_fk = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def save(self):
+        super().save()
+        super().save(using='farming')
+
+class GroupMember(models.Model):
+    class Meta:
+        db_table = 'GroupMember'
+    Username = models.CharField(max_length=150, null=True)
+    Group_fk = models.ForeignKey(Group, on_delete=models.CASCADE)
+    Person_fk = models.ForeignKey(Person, on_delete=models.CASCADE)
 
     def save(self):
         super().save()
