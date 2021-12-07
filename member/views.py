@@ -14,7 +14,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
 from workshop.models import Workshop
-from group.models import Group, GroupMember
+from group.models import Group, GroupMember, GroupSharing
 from .models import Person
 from member.models import Member
 from sharing.models import Feed
@@ -230,7 +230,9 @@ def mainGroup(request):
     try:
         group=Group.objects.all()
         person = Person.objects.all()
-        return render(request,'MainGroup.html',{'group':group, 'person':person})
+        #Gsharing = GroupSharing.objects.all()
+        sharing = Feed.objects.all()
+        return render(request,'MainGroup.html',{'group':group, 'person':person, 'sharing':sharing})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
@@ -262,15 +264,6 @@ def myGroup(request):
     except Group.DoesNotExist:
        raise Http404('Data does not exist')
 
-def ViewEditGroup(request):
-    try:
-        group = Group.objects.all()
-        person = Person.objects.all()
-        return render(request,'EditGroup.html',{'group':group, 'person':person})
-    except Group.DoesNotExist:
-       raise Http404('Data does not exist')
-
-
 def updateGroup(request, fk1, fk):
     #group = Group.objects.filter(Name=request.session['GName'])
     group = Group.objects.get(pk=fk1)
@@ -280,11 +273,31 @@ def updateGroup(request, fk1, fk):
         f = Person.objects.get(pk=fk)
         GUsername = request.POST.get('Username')
         GroupMember(Username=GUsername, Group_fk=t, Person_fk=f).save(),
-        messages.success(request,"Your username is successfully added")
+        #messages.success(request,"Your username is successfully added")
         return render(request,'EditGroup.html', {'group':group, 'person':person})
 
     else:
         return render(request, 'EditGroup.html', {'group':group, 'person':person})
+
+def AddGroupSharing(request, fk1, fk2, fk3):
+    group = Group.objects.get(pk=fk3)
+    person = Person.objects.get(pk=fk1)
+    sharing = Feed.objects.get(pk=fk2)
+    if request.method=='POST':
+        g = Group.objects.get(pk=fk3)
+        p = Person.objects.get(pk=fk1)
+        s = Feed.objects.get(pk=fk2)
+        s.GTitle=request.POST.get('Title')
+        s.GMessage=request.POST.get('Message')
+        s.GPhoto=request.POST.get('Photo')
+        s.GVideo=request.POST.get('Video')
+        s.GGraph=request.POST.get('Graph')
+        s.save(),
+        GroupSharing(Person_fk=p, Sharing_fk=s, Group_fk=g).save(),
+        messages.success(request,'The new feed is save succesfully..!')
+        return render(request,'AddGroupSharing.html',{'group':group, 'person':person, 'sharing':sharing})
+    else :
+        return render(request,'AddGroupSharing.html',{'group':group, 'person':person, 'sharing':sharing})
 
 
 

@@ -77,7 +77,7 @@
 
 {% for group in group %}
 {% for person in person %}
-<form action="{% url 'EditGroup' group.id person.id  %}" method="POST" class="center">
+<form action="{% url 'EditGroup' group.id person.id %}" method="POST" class="center">
 {% endfor %}
 {% endfor %}
   {% csrf_token %}
@@ -100,6 +100,44 @@
                   <th scope="row" value="{{ Group.GMedia }}">{{ group.GMedia }}</th>
                   <td>
                     <button type="submit" class="btn btn-success " value="View">Join</button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+      </div>
+        </div>
+</form>
+
+<br/><br/>
+
+{% for group in group %}
+{% for person in person %}
+{% for sharing in sharing %}
+<form action="{% url 'AddGroupSharing' person.id sharing.id group.id %}" method="POST" class="center">
+{% endfor %}
+{% endfor %}
+{% endfor %}
+  {% csrf_token %}
+        <div class="container">
+          <div class="row">
+            <table class="table caption-top">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">About</th>
+                  <th scope="col">Media</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for group in group %}
+                <tr>
+                  <th scope="row" value="{{ Group.GName }}">{{ group.GName }}</th>
+                  <th scope="row" value="{{ Group.GAbout }}">{{ group.GAbout }}</th>
+                  <th scope="row" value="{{ Group.GMedia }}">{{ group.GMedia }}</th>
+                  <td>
+                    <button type="submit" class="btn btn-success " value="Add">Add Sharing</button>
                   </td>
                 </tr>
                 {% endfor %}
