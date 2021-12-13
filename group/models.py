@@ -35,13 +35,13 @@ class GroupMember(models.Model):
 class GroupSharing(models.Model):
     class Meta:
         db_table = 'GroupSharing'
-    #GTitle = models.CharField(max_length=255, blank=True)
-    #GMessage = models.CharField(max_length=255, blank=True)
-    #GPhoto = models.ImageField(upload_to ='images/')
-    #GVideo = models.FileField(upload_to='uploads/', null=True)
-    #GGraph = models.FileField(upload_to='uploads/')
+    GTitle = models.CharField(max_length=255, null=True, blank=True)
+    GMessage = models.CharField(max_length=255, null=True, blank=True)
+    GPhoto = models.ImageField(upload_to ='images/')
+    GVideo = models.FileField(upload_to='uploads/', null=True)
+    GGraph = models.FileField(upload_to='uploads/')
     Person_fk = models.ForeignKey(Person, on_delete=models.CASCADE)
-    Sharing_fk = models.ForeignKey(Feed, on_delete=models.CASCADE)
+    #Sharing_fk = models.ForeignKey(Feed, on_delete=models.CASCADE)
     Group_fk = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def save(self):

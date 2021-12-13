@@ -10,15 +10,15 @@ class Workshop(models.Model):
         db_table = 'Workshop'
     ProgrammeName = models.CharField(max_length=150,default="")
     Description=models.CharField(max_length=150,default="")
-    Date = models.DateField()
+    Date = models.DateField(blank=True, null=True)
     Session = models.CharField(max_length=150)
 
 
 class Booking(models.Model):
     class Meta:
         db_table = 'Booking'
-    Name = models.CharField(max_length=150)
-    ProgrammeName = models.CharField(max_length=150,default="")
-    Date = models.DateField()
-    Session = models.CharField(max_length=150)
+    Name = models.CharField(max_length=150,null=True)
+    ProgrammeName = models.CharField(max_length=150,default="",null=True)
+    Date = models.DateField(blank=True, null=True)
+    Session = models.CharField(max_length=150,null=True)
 

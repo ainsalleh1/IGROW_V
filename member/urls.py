@@ -64,7 +64,9 @@ urlpatterns = [
     path('EditGroup.html/<str:fk1>/<str:fk>/',views.updateGroup, name="EditGroup"),
     #path('EditGroup.html',views.ViewEditGroup, name="ViewEditGroup"),
     #url(r'^world/(?P<world_pk>\d+)/(?P<country_pk>\d+)/$'
-    path('AddGroupSharing.html/<str:fk1>/<str:fk2>/<str:fk3>/', views.AddGroupSharing, name="AddGroupSharing"),
+    path('AddGroupSharing.html', views.AddGroupSharing, name="AddGroupSharing"),
+    path('GSharing.html/<str:fk1>/<str:fk3>/', views.GSharing, name="GSharing"),
+    path('ViewGroupSharing.html', views.ViewGroupSharing, name="ViewGroupSharing"),
     
 
     path('MainMember.html', views.mainMember, name="MainMember"),

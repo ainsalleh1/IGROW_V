@@ -13,7 +13,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
-from workshop.models import Workshop
+from workshop.models import Booking, Workshop
 from group.models import Group, GroupMember, GroupSharing
 from .models import Person
 from member.models import Member
@@ -266,38 +266,52 @@ def myGroup(request):
 
 def updateGroup(request, fk1, fk):
     #group = Group.objects.filter(Name=request.session['GName'])
+    p = Person.objects.filter(Email=request.session['Email'])
     group = Group.objects.get(pk=fk1)
-    person = Person.objects.get(pk=fk)
+    person = Person.objects.filter(Email=request.session['Email'])
+    gmember = GroupMember.objects.all()
     if request.method=='POST':
         t = Group.objects.get(pk=fk1)
         f = Person.objects.get(pk=fk)
-        GUsername = request.POST.get('Username')
-        GroupMember(Username=GUsername, Group_fk=t, Person_fk=f).save(),
+        #GUsername = request.POST.get('Username')
+        GroupMember(Username=f.Username, Group_fk=t, Person_fk=f).save(),
         #messages.success(request,"Your username is successfully added")
-        return render(request,'EditGroup.html', {'group':group, 'person':person})
+        return render(request,'EditGroup.html', {'group':group, 'person':person, 'gmember':gmember})
 
     else:
         return render(request, 'EditGroup.html', {'group':group, 'person':person})
 
-def AddGroupSharing(request, fk1, fk2, fk3):
+def GSharing(request, fk1,fk3):
     group = Group.objects.get(pk=fk3)
-    person = Person.objects.get(pk=fk1)
-    sharing = Feed.objects.get(pk=fk2)
+    person = Person.objects.filter(Email=request.session['Email'])
+    g = Group.objects.get(pk=fk3)
+    p = Person.objects.get(pk=fk1)
     if request.method=='POST':
-        g = Group.objects.get(pk=fk3)
-        p = Person.objects.get(pk=fk1)
-        s = Feed.objects.get(pk=fk2)
-        s.GTitle=request.POST.get('Title')
-        s.GMessage=request.POST.get('Message')
-        s.GPhoto=request.POST.get('Photo')
-        s.GVideo=request.POST.get('Video')
-        s.GGraph=request.POST.get('Graph')
-        s.save(),
-        GroupSharing(Person_fk=p, Sharing_fk=s, Group_fk=g).save(),
-        messages.success(request,'The new feed is save succesfully..!')
-        return render(request,'AddGroupSharing.html',{'group':group, 'person':person, 'sharing':sharing})
+        GTitle=request.POST.get('GTitle')
+        GMessage=request.POST.get('GMessage')
+        GPhoto=request.POST.get('GPhoto')
+        GVideo=request.POST.get('GVideo')
+        GGraph=request.POST.get('GGraph')
+        GroupSharing(GTitle=GTitle,GMessage=GMessage,GPhoto=GPhoto,GVideo=GVideo,GGraph=GGraph,Person_fk=p,Group_fk=g).save(),
+        #messages.success(request,'The new feed' + request.POST['GTitle'] + "is save succesfully..!")
+        return render(request,'GSharing.html')
     else :
+        return render(request,'GSharing.html')
+
+def AddGroupSharing(request):
+    try:
+        group=Group.objects.all()
+        person = Person.objects.filter(Email=request.session['Email'])
+        #Gsharing = GroupSharing.objects.all()
+        sharing = Feed.objects.all()
         return render(request,'AddGroupSharing.html',{'group':group, 'person':person, 'sharing':sharing})
+    except Group.DoesNotExist:
+        raise Http404('Data does not exist')
+
+def ViewGroupSharing(request):
+    person = Person.objects.filter(Email=request.session['Email'])
+    feed = GroupSharing.objects.all()
+    return render(request,'ViewGroupSharing.html',{'feed':feed, 'person':person})  
 
 
 
@@ -377,7 +391,8 @@ def discussion(request):
 def workshop(request):
         try:
             data=Workshop.objects.all()
-            return render(request,'workshop.html',{'data':data})
+            person = Person.objects.filter(Email=request.session['Email'])
+            return render(request,'workshop.html',{'data':data, 'person':person})
         except Workshop.DoesNotExist:
             raise Http404('Data does not exist')
 
@@ -409,14 +424,16 @@ def booking(request):
     #    return render(request,'booking.html',{'data':data})
     #except Workshop.DoesNotExist:
     #    raise Http404('Data does not exist')
-
+    data=Workshop.objects.all()
+    person = Person.objects.filter(Email=request.session['Email'])
     if request.method=='POST':
+        Name=request.POST.get('Name')
         ProgrammeName=request.POST.get('ProgrammeName')
         Date=request.POST.get('Date')
         Session=request.POST.get('Session')
-        Workshop(ProgrammeName=ProgrammeName,Date=Date,Session=Session).save(),
-        messages.success(request,'The booking of ' + request.POST['ProgrammeName'] + " is save succesfully..!")
-        return render(request,'booking.html')
+        Booking(Name=Name,ProgrammeName=ProgrammeName,Date=Date,Session=Session).save(),
+        messages.success(request,'The booking of is save succesfully..!')
+        return render(request,'booking.html',{'data':data, 'person':person})
     else :
        return render(request,'booking.html')
 

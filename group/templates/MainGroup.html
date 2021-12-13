@@ -71,15 +71,22 @@
                           <div class="col-12">
                             <a href="{% url 'MyGroup' %}" class="link-primary">View Group Details</a> 
                           </div>
+                          <div class="col-12">
+                            <a href="{% url 'AddGroupSharing' %}" class="link-primary">Add Sharing</a> 
+                          </div>
                           <br/>
                           {% endblock content %}
                           {% block body %}
 
 {% for group in group %}
 {% for person in person %}
+{% if person.UserLevel == 'user' %}
+
 <form action="{% url 'EditGroup' group.id person.id %}" method="POST" class="center">
-{% endfor %}
-{% endfor %}
+
+{% endif %}
+  {%  endfor %}
+    {% endfor %}
   {% csrf_token %}
         <div class="container">
           <div class="row">
@@ -101,6 +108,9 @@
                   <td>
                     <button type="submit" class="btn btn-success " value="View">Join</button>
                   </td>
+                  <td>
+                    <a href="{% url 'ViewGroupSharing' %}" class="link-primary">View Sharing</a> 
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -110,41 +120,6 @@
 </form>
 
 <br/><br/>
-
-{% for group in group %}
-{% for person in person %}
-{% for sharing in sharing %}
-<form action="{% url 'AddGroupSharing' person.id sharing.id group.id %}" method="POST" class="center">
-{% endfor %}
-{% endfor %}
-{% endfor %}
-  {% csrf_token %}
-        <div class="container">
-          <div class="row">
-            <table class="table caption-top">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">About</th>
-                  <th scope="col">Media</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for group in group %}
-                <tr>
-                  <th scope="row" value="{{ Group.GName }}">{{ group.GName }}</th>
-                  <th scope="row" value="{{ Group.GAbout }}">{{ group.GAbout }}</th>
-                  <th scope="row" value="{{ Group.GMedia }}">{{ group.GMedia }}</th>
-                  <td>
-                    <button type="submit" class="btn btn-success " value="Add">Add Sharing</button>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-      </div>
-</form>
 {% endblock body %}
 </body>
 </html>

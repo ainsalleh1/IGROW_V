@@ -61,7 +61,7 @@
      {% csrf_token %}
      {% for person in person %}
      <div class="col-md-4">
-      <label for="inputProgramme" class="form-label">{{ person.Email }}</label>
+      <label for="inputProgramme" class="form-label"name="Name">{{ person.Email }}</label>
       <br/>
     {% endfor %}
     <br/>
@@ -75,18 +75,11 @@
       </select>
     </div>
       <br/>
-      <div class="col-md-4">
-        <label for="inputDate" class="form-label">Description : </label>
-        <select id="inputDate" class="form-select" name="Date">
-          <option selected>-Select-</option>
-          <option name="Date" value="{{ data.Date }}">{{data.Description}}</option>
-        </select>
-      </div><br/>
     <div class="col-md-4">
         <label for="inputDate" class="form-label">Date : </label>
         <select id="inputDate" class="form-select" name="Date">
           <option selected>-Select-</option>
-          <option name="Date" value="{{ data.Date }}">{{data.Date}}</option>
+          <option id="inputDate" name="Date" value="{{ data.Date }}">{{data.Date}}</option>
         </select>
       </div><br/>
     <div class="col-md-4">
