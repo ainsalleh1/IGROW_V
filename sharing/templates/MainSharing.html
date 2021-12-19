@@ -85,9 +85,9 @@
         <th scope="row" value="{{ feed.Message }}">{{ feed.Message }}</th>
         <td>
           <div class="btn-group">
-            <button type="submit" class="btn btn-success " value="Edit" href="{% url 'UpdateSharing' %}">Edit</button>
+            <a value="Edit" href="{% url 'UpdateSharing' %}">Edit</a>
             <br/>
-            <button type="submit" class="btn btn-success " value="Delete" href="{% url 'DeleteSharing' %}">Delete</button>
+            <a value="Delete" href="{% url 'DeleteSharing' %}">Delete</a>
           </div>
         </td>
       </tr>

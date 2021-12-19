@@ -190,7 +190,7 @@ def viewSharing(request):
     return render(request,'ViewSharing.html',{'feed':feed})  
 
 def updateSharing(request):
-    feed = Feed.objects.filter(Title=request.session['Title'])
+    feed = Feed.objects.get(Title=request.session['Title'])
     if request.method=='POST':
        f = Feed.objects.get(Title=request.session['Title'])
        f.Title=request.POST['Title']
@@ -199,9 +199,9 @@ def updateSharing(request):
        f.Video=request.POST.get('Video')
        f.Graph=request.POST['Graph']
        f.save()
-       return render(request,'ViewSharing.html')
+       return render(request,'ViewSharing.html',{'feed':feed})
     else:
-        return render(request, 'homepage.html', {'feed': Feed})
+        return render(request, 'homepage.html', {'feed':feed})
 
 def deleteSharing(request,id):
     sharing = get_object_or_404(sharing, id=id)
@@ -433,9 +433,9 @@ def booking(request):
         Session=request.POST.get('Session')
         Booking(Name=Name,ProgrammeName=ProgrammeName,Date=Date,Session=Session).save(),
         messages.success(request,'The booking of is save succesfully..!')
-        return render(request,'booking.html',{'data':data, 'person':person})
+        return render(request,'workshop.html',{'data':data, 'person':person})
     else :
-       return render(request,'booking.html')
+       return render(request,'workshop.html')
 
     #data = Workshop.objects.all#filter(ProgrammeName=request.session['ProgrammeName'])
     #return render(request, 'booking.html',{'data': data})

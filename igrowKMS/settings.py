@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'djoser',
+    'pyrebase',
 ]
 
 #SITE_ID = 1
