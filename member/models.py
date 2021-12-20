@@ -1,3 +1,4 @@
+from django import db
 from django.db import models, migrations
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -7,6 +8,11 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
 
 class Person(models.Model):
     Email = models.CharField(max_length=150)
@@ -32,6 +38,8 @@ class Person(models.Model):
 
     class Meta:
         db_table = 'login_person'
+        #db.collection('login_person')
+
         #fields = ['Email', 'Password']
     
     USERNAME_FIELD = 'Email'
