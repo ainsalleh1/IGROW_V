@@ -43,8 +43,8 @@ from .api import UserList, UserDetail, UserAuthentication
 urlpatterns = [
 
     # url(r'^admin/', admin.site.urls),
-    # url(r'^$',views.singIn),
-    # url('^postsign/',views.postsign),
+    url(r'^$',views.signIn),
+    url('^postsign/',views.postsign),
     path('',views.Indexpage),
     path('Home',views.homepage, name="Home"),
     path('HomeAdmin',views.homepageAdmin, name="HomeAdmin"),

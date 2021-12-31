@@ -13,11 +13,11 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate('D:\IGROW_V-main\member\serviceAccountKey.json')
+#cred = credentials.Certificate('D:\IGROW_V-main\member\serviceAccountKey.json')
 
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://i-grow-kmma.firebaseio.com'
-})
+#firebase_admin.initialize_app(cred, {
+#    'databaseURL': 'https://i-grow-kmma.firebaseio.com'
+#})
 
 
 class Person(models.Model):

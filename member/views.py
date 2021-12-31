@@ -25,7 +25,8 @@ from member.serializers import MyTokenObtainPairSerializer, UsersSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 import requests
 #from member.models import Users 
-from .serializers import UsersSerializer 
+from .serializers import UsersSerializer
+import pyrebase 
 #from rest_framework import viewsets
 # def encryptPassword(Pwd):
 #         key = Fernet.generate_key()
@@ -47,6 +48,27 @@ from .serializers import UsersSerializer
 # firebase_admin.initialize_app(cred, {
 #     'databaseURL': 'https://i-grow-kmma.firebaseio.com'
 # })
+firebaseConfig={
+
+    "apiKey": "AIzaSyDHx0RR2nsDiJECbaP4DpLpejjqutLPN34",
+    "authDomain": "i-grow-kmma.firebaseapp.com",
+    "projectId": "i-grow-kmma",
+    "databaseURL": "xxxxxx",
+    "storageBucket": "i-grow-kmma.appspot.com",
+    "messagingSenderId": "426593032564",
+    "appId": "1:426593032564:web:37f2948f17ae0cde6fb421",
+    "measurementId": "G-Z1JJD88MCZ"
+}
+
+firebase = pyrebase.initialize_app(firebaseConfig)
+
+auth = firebase.auth()
+
+def signIn(request):
+    return render(request, 'signIn.html')
+
+def postsign(request):
+    return render(request, 'postsign.html')
 
 def user_list(request):
 
@@ -72,8 +94,8 @@ def Indexpage(request):
     return render(request, 'index.html')
 
 def homepage(request):
-    person = Person.objects.filter(Email=request.session['Email'])
-    return render(request, 'homepage.html',{'person': person })
+    #person = Person.objects.filter(Email=request.session['Email'])
+    return render(request, 'homepage.html')
 
 def homepageAdmin(request):
     person = Person.objects.filter(Email=request.session['Email'])
