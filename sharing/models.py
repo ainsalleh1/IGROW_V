@@ -4,17 +4,20 @@ from django.db.models.signals import post_save
 from django.contrib.syndication.views import Feed
 from django.shortcuts import render
 
+from member.models import Person
+
 # Create your models here.
 
 
 class Feed(models.Model):
     class Meta:
         db_table = 'Feed'
-    Title = models.CharField(max_length=255, blank=True)
+    Title = models.CharField(max_length=255, blank=True, unique=True)
     Message = models.CharField(max_length=255, blank=True)
     Photo = models.ImageField(upload_to ='images/')
     Video = models.FileField(upload_to='uploads/', null=True)
     Graph = models.FileField(upload_to='uploads/')
+    #Person_fk = models.ForeignKey(Person, on_delete=models.CASCADE)
 
     def showvideo(request):
 

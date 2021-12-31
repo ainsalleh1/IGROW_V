@@ -11,8 +11,12 @@ from rest_framework.authtoken.models import Token
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+
+#cred = credentials.Certificate("serviceAccountKey.json")
+#firebase_admin.initialize_app(cred{
+#    'databaseURL': 'https://databaseName.firebaseio.com'
+#})
+#db = firestore.client()
 
 class Person(models.Model):
     Email = models.CharField(max_length=150)

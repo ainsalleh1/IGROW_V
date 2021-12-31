@@ -6,7 +6,7 @@ firebaseConfig={
     "apiKey": "AIzaSyDHx0RR2nsDiJECbaP4DpLpejjqutLPN34",
     "authDomain": "i-grow-kmma.firebaseapp.com",
     "projectId": "i-grow-kmma",
-    "databaseURL": "xxxxxx",
+    "databaseURL": "https://i-grow-kmma.firebaseapp.com",
     "storageBucket": "i-grow-kmma.appspot.com",
     "messagingSenderId": "426593032564",
     "appId": "1:426593032564:web:37f2948f17ae0cde6fb421",

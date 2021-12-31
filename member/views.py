@@ -189,25 +189,31 @@ def viewSharing(request):
     feed = Feed.objects.all()
     return render(request,'ViewSharing.html',{'feed':feed})  
 
-def updateSharing(request):
-    feed = Feed.objects.get(Title=request.session['Title'])
+def updateSharing(request, fk):
+    #person = Person.objects.filter(Email=request.session['Email'])
+    #feed = Feed.objects.filter(Title=request.session['Title'])
+    feed = Feed.objects.get(pk=fk)
+    #feed= Feed.objects.all()
     if request.method=='POST':
-       f = Feed.objects.get(Title=request.session['Title'])
+       #p = Person.objects.get(Email=request.session['Email'])
+       f = Feed.objects.get(pk=fk)
+       #p = Feed.objects.filter(Title=request.session['Title'])
        f.Title=request.POST['Title']
        f.Message=request.POST.get('Message')
        f.Photo=request.POST.get('Photo')
        f.Video=request.POST.get('Video')
-       f.Graph=request.POST['Graph']
+       f.Graph=request.POST.get('Graph')
        f.save()
        return render(request,'ViewSharing.html',{'feed':feed})
     else:
-        return render(request, 'homepage.html', {'feed':feed})
+        return render(request, 'ViewSharing.html', {'feed':feed})
 
-def deleteSharing(request,id):
-    sharing = get_object_or_404(sharing, id=id)
+def deleteSharing(request,fk):
+    sharing = get_object_or_404(Feed, id=fk)
     if request.method=='POST':
         sharing.delete()
-        return redirect('homepage.html')
+        #return redirect('homepage.html')
+        return render(request,'MainSharing.html')
     context = {
         "object" : sharing
     }

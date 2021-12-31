@@ -61,25 +61,25 @@
                             {% for feed in feed%}
                             <div class="col-12">
                               <label for="inputTitle" class="container text-left">Title</label>
-                              <input type="text" class="form-control" id="title" placeholder="Enter title" name="Title" value="{{ feed.Title }}">
+                              <input type="text" class="form-control" id="title" placeholder="Enter title" name="Title" value="{{ feed.Title }}">{{ feed.Title }}
                             </div>
                             <div class="col-md-6">
                               <label for="inputNewSharing" class="form-label">Message</label>
-                              <textarea class="form-control" id="inputSharing" name="Message" rows="10" cols="10" placeholder="Enter feed" value="{{ feed.Message }}"></textarea>
+                              <textarea class="form-control" id="inputSharing" name="Message" rows="10" cols="10" placeholder="Enter feed" value="{{ feed.Message }}">{{ feed.Message }}
                             </div>
                             <br/><br/>
                             <div class="col-12">
                               <label for="inputImage" class="form-label">Photo</label>
-                              <input type="file" img src="/media/login/photo.png" class="form-control" id="inputImage" name="Photo" placeholder="Enter image">
+                              <input type="file" img src="/media/login/photo.png" class="form-control" id="inputImage" name="Photo" placeholder="Enter image" value="{{ feed.Photo }}">
                             </div>
                             <br/><br/>
                             <div class="col-12">
                               <label for="inputVideo" class="form-label">Video</label>
-                              <input type="file" class="form-control" id="inputVideo" name="Video" placeholder="Enter video">
+                              <input type="file" class="form-control" id="inputVideo" name="Video" placeholder="Enter video" value="{{ feed.Video }}">
                             </div>
                             <br/><br/>
                             <div class="col-12">
                               <label for="inputGraph" class="form-label">Graph</label>
-                              <input type="file" class="form-control" id="inputGraph" name="Graph " placeholder="Enter graph">
+                              <input type="file" class="form-control" id="inputGraph" name="Graph " placeholder="Enter graph" value="{{ feed.Graph }}">
                             </div>
 {% endfor %}

@@ -53,8 +53,8 @@ urlpatterns = [
     path('MainSharing.html',views.mainSharing, name="MainSharing"),
     path('sharing.html',views.sharing, name="Sharing"),
     path('ViewSharing',views.viewSharing,name="ViewSharing"),
-    path('UpdateSharing',views.updateSharing, name="UpdateSharing"),
-    path('DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
+    path('UpdateSharing/<str:fk>/',views.updateSharing, name="UpdateSharing"),
+    path('DeleteSharing.html/<str:fk>/', views.deleteSharing, name="DeleteSharing"),
 
     path('MainGroup.html',views.mainGroup, name="MainGroup"),
     path('group.html',views.group, name="Group"),
