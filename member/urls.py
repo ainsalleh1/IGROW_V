@@ -42,8 +42,10 @@ from .api import UserList, UserDetail, UserAuthentication
 
 urlpatterns = [
 
-    # url(r'^admin/', admin.site.urls),
-    url(r'^$',views.signIn),
+    #url(r'^admin/', admin.site.urls),
+    url(r'^$',views.signIn, name="SignIn"),
+    #url('sign',views.signUp),
+    path('registration.html',views.signUp, name="signUp"),
     url('^postsign/',views.postsign),
     path('',views.Indexpage),
     path('Home',views.homepage, name="Home"),

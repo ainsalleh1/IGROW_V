@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django import forms
 from firebase_admin import firestore
+from pyrebase.pyrebase import Database
 from rest_framework import authentication, serializers
 from rest_framework.permissions import AllowAny
 # from .forms import CreateInDiscussion, PersonForm, UserUpdateForm
@@ -27,6 +28,8 @@ import requests
 #from member.models import Users 
 from .serializers import UsersSerializer
 import pyrebase 
+from django.contrib import auth
+from getpass import getpass
 #from rest_framework import viewsets
 # def encryptPassword(Pwd):
 #         key = Fernet.generate_key()
@@ -62,12 +65,63 @@ firebaseConfig={
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 
-auth = firebase.auth()
+authe = firebase.auth()
 
 def signIn(request):
-    return render(request, 'signIn.html')
+    if request.method=='POST':
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        try:
+            user = authe.sign_in_with_email_and_password(email,password)
+        except:
+            message="Invalid Credentials"
+            return render(request, 'signIn.html', {"mssg":message})
+        print(user['idToken'])
+        session_id=user['idToken']
+        request.session['uid']=str(session_id)
+        return render(request, 'signIn.html')
+    
+    else:
+        return render(request,'signIn.html')
+
+def signUp(request):
+    if request.method=='POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        username=request.POST.get('username')
+        name=request.POST.get('name')
+        dob=request.POST.get('dob')
+        age=request.POST.get('age')
+        district=request.POST.get('district')
+        state=request.POST.get('state')
+        occupation=request.POST.get('occupation')
+        about=request.POST.get('about')
+        gender=request.POST.get('gender')
+        maritalstatus=request.POST.get('maritalstatus')
+        userlevel = request.POST.get('userlevel')
+        Photo = request.POST.get('Photo')
+        #resume = request.POST.get('resume')
+        # Person(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
+        #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel,Photo=Photo).save(),
+
+        try: 
+            user=authe.create_user_with_email_and_password(email,password)
+        except:
+            message="Unable to create a new user. Please try again"
+            return render(request,'registration.html', {"mssg":message})
+        uid=user['localId']
+        
+        data={username: "username", name:"name", dob:"dob", age:"age", district:"district", state:"state", occupation:"occupation",about:"about", gender:"gender", maritalstatus:"maritalstatus", userlevel:"userlevel"}
+        Database.child("person").child(uid).child("details").set(data)
+        return render(request,'registration.html')
+    else :
+        return render(request,'registration.html')
 
 def postsign(request):
+    email = request.POST.get("email")
+    password = request.POST.get("password")
+    login = auth.sign_in_with_email_and_password(email,password)
     return render(request, 'postsign.html')
 
 def user_list(request):
@@ -95,6 +149,7 @@ def Indexpage(request):
 
 def homepage(request):
     #person = Person.objects.filter(Email=request.session['Email'])
+    
     return render(request, 'homepage.html')
 
 def homepageAdmin(request):
@@ -105,27 +160,33 @@ def homepageAdmin(request):
 #user registration
 def UserReg(request):
     if request.method=='POST':
-        Email=request.POST['Email']
-        Pwd=request.POST['Pwd']
-        Username=request.POST.get('Username')
-        Name=request.POST.get('Name')
-        DateOfBirth=request.POST.get('DateOfBirth')
-        Age=request.POST['Age']
-        District=request.POST['District']
-        State=request.POST['State']
-        Occupation=request.POST['Occupation']
-        About=request.POST['About']
-        Gen=request.POST.get('Gender')
-        MaritalStatus=request.POST.get('MaritalStatus')
-        UserLevel = request.POST.get("UserLevel")
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        username=request.POST.get('username')
+        name=request.POST.get('name')
+        dob=request.POST.get('dob')
+        age=request.POST.get('age')
+        district=request.POST.get('district')
+        state=request.POST.get('state')
+        occupation=request.POST.get('occupation')
+        about=request.POST.get('about')
+        gender=request.POST.get('gender')
+        maritalstatus=request.POST.get('maritalstatus')
+        userlevel = request.POST.get('userlevel')
         Photo = request.POST.get('Photo')
         #resume = request.POST.get('resume')
         # Person(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
         #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel,Photo=Photo).save(),
 
-        db = firestore.client()
-
-        db.collection('users').add({'username':Username, 'age':'20'})
+        try: 
+            user=authe.create_user_with_email_and_password(email,password)
+        except:
+            message="Unable to create a new user. Please try again"
+            return render(request,'registration.html', {"mssg":message})
+        uid=user['localId']
+        
+        data={username: "username", name:"name", dob:"dob", age:"age", district:"district", state:"state", occupation:"occupation",about:"about", gender:"gender", maritalstatus:"maritalstatus", userlevel:"userlevel"}
+        Database.child("person").child(uid).child("details").set(data)
 
         #ranking = request.POST.get('ranking')
         
@@ -138,7 +199,7 @@ def UserReg(request):
         #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus).save(),
         # FarmingPerson(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
             # Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus),
-        messages.success(request,'The new user ' + request.POST['Username'] + " is save succesfully..!")
+        #messages.success(request,'The new user ' + request.POST['Username'] + " is save succesfully..!")
         return render(request,'registration.html')
     else :
         return render(request,'registration.html')
@@ -167,10 +228,11 @@ def loginpage(request):
 
 #user logout
 def logout(request):
-    try:
-        del request.session['Email']
-    except:
-        return render(request,'index.html')
+    #try:
+    #    del request.session['Email']
+    #except:
+    #    return render(request,'index.html')
+    auth.logout(request)
     return render(request,'index.html')
 
 #profile
