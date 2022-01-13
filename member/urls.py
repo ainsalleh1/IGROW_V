@@ -50,8 +50,8 @@ urlpatterns = [
     path('',views.Indexpage),
     path('Home',views.homepage, name="Home"),
     path('HomeAdmin',views.homepageAdmin, name="HomeAdmin"),
-    path('Registration', views.UserReg, name="Reg"),
-    path('Loginpage', views.loginpage, name="Loginpage"),
+    #path('Registration', views.UserReg, name="Reg"),
+    #path('Loginpage', views.loginpage, name="Loginpage"),
     path('Logout',views.logout, name="Logout"),
     path('View',views.view,name="View"),
 

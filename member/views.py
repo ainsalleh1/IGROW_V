@@ -1,3 +1,5 @@
+from datetime import time
+from io import StringIO
 from django.http.response import Http404
 from django.shortcuts import render, redirect, get_object_or_404, resolve_url
 # from django.shortcuts import pyrebase
@@ -6,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django import forms
 from firebase_admin import firestore
+from firebase_admin.auth import UidIdentifier, UserIdentifier
+from pyasn1_modules.rfc2459 import UserNotice
 from pyrebase.pyrebase import Database
 from rest_framework import authentication, serializers
 from rest_framework.permissions import AllowAny
@@ -30,33 +34,23 @@ from .serializers import UsersSerializer
 import pyrebase 
 from django.contrib import auth
 from getpass import getpass
-#from rest_framework import viewsets
-# def encryptPassword(Pwd):
-#         key = Fernet.generate_key()
-#         fernet = Fernet(key)
-#         encrypted = fernet.encrypt(Pwd.encode())
-#         return encrypted
+from rest_framework import viewsets
+import json
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
-# def deryptPassword(Pwd):
-#         key = Fernet.generate_key()
-#         fernet = Fernet(key)
-#         decrypted = fernet.decrypt(Pwd).decode()
-#         return decrypted
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import firestore
+cred = credentials.Certificate('C:/Users/Ain/OneDrive/Documents/SEM 5/AD/PROJECT/IGROW_V/member/serviceAccountKey.json')
+firebase_admin.initialize_app(cred)
 
-# cred = credentials.Certificate('D:\IGROW_V-main\member\serviceAccountKey.json')
+db = firestore.client()
 
-# firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://i-grow-kmma.firebaseio.com'
-# })
 firebaseConfig={
 
     "apiKey": "AIzaSyDHx0RR2nsDiJECbaP4DpLpejjqutLPN34",
     "authDomain": "i-grow-kmma.firebaseapp.com",
     "projectId": "i-grow-kmma",
-    "databaseURL": "xxxxxx",
+    "databaseURL": "xxxxxxxx",
     "storageBucket": "i-grow-kmma.appspot.com",
     "messagingSenderId": "426593032564",
     "appId": "1:426593032564:web:37f2948f17ae0cde6fb421",
@@ -66,6 +60,25 @@ firebaseConfig={
 firebase = pyrebase.initialize_app(firebaseConfig)
 
 authe = firebase.auth()
+database=firebase.database()
+ 
+def encryptPassword(Pwd):
+         key = Fernet.generate_key()
+         fernet = Fernet(key)
+         encrypted = fernet.encrypt(Pwd.encode())
+         return encrypted
+
+def deryptPassword(Pwd):
+         key = Fernet.generate_key()
+         fernet = Fernet(key)
+         decrypted = fernet.decrypt(Pwd).decode()
+         return decrypted
+
+
+
+
+
+
 
 def signIn(request):
     if request.method=='POST':
@@ -110,11 +123,23 @@ def signUp(request):
         except:
             message="Unable to create a new user. Please try again"
             return render(request,'registration.html', {"mssg":message})
-        uid=user['localId']
         
-        data={username: "username", name:"name", dob:"dob", age:"age", district:"district", state:"state", occupation:"occupation",about:"about", gender:"gender", maritalstatus:"maritalstatus", userlevel:"userlevel"}
-        Database.child("person").child(uid).child("details").set(data)
-        return render(request,'registration.html')
+        data={
+            u'username': username,
+            u'name': name, 
+            u'dob': dob, 
+            u'age': age, 
+            u'district': district, 
+            u'state': state, 
+            u'occupation': occupation,
+            u'about': about, 
+            u'gender': gender, 
+            u'maritalstatus': maritalstatus, 
+            u'userlevel': userlevel,
+            }
+
+        db.collection(u'person').document().set(data)
+        return render(request,'signIn.html')
     else :
         return render(request,'registration.html')
 
@@ -158,7 +183,7 @@ def homepageAdmin(request):
 
 
 #user registration
-def UserReg(request):
+#def UserReg(request):
     if request.method=='POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -207,7 +232,7 @@ def UserReg(request):
 
 
 #user login
-def loginpage(request):
+#def loginpage(request):
     if request.method == "POST":
         try:
             #UserLevel = Person.objects.get(Userlevel = request.POST['UserLevel'])
@@ -277,9 +302,20 @@ def sharing(request):
         Message=request.POST.get('Message')
         Photo=request.POST.get('Photo')
         Video=request.POST.get('Video')
-        Graph=request.POST.get('Graph')
-        Feed(Title=Title,Message=Message,Photo=Photo,Video=Video,Graph=Graph).save(),
-        messages.success(request,'The new feed is save succesfully..!')
+        #Graph=request.POST.get('Graph')
+        #Feed(Title=Title,Message=Message,Photo=Photo,Video=Video,Graph=Graph).save(),
+        #messages.success(request,'The new feed is save succesfully..!')
+
+        user = auth.get_user(UidIdentifier)
+        data={
+            u'title': Title,
+            u'message':Message,
+            u'photo':Photo,
+            u'video':Video,
+            u'userID': user.uid
+
+        }
+        db.collection(u'sharing').document().set(data)
         return render(request,'sharing.html')
     else :
         return render(request,'sharing.html')

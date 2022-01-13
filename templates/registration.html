@@ -29,7 +29,7 @@
    <p class="h3 text-center align-content: center;">Templates Registration Form</p>
    <hr/>
    <br/>
-<form method="POST" class="container text-center" >
+<form method="POST" class="container text-center" action="{% url 'signUp' %}">
   {% csrf_token %}
 
   <div class="form-row">
@@ -49,18 +49,18 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail" class="container text-left" >Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" name="Email" required>
+        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
       </div>
 
       <div class="form-group col-md-6">
         <label for="inputPassword" class="container text-left" >Password</label>
-        <input type="password" class="form-control" id="Password" placeholder="Enter password" name="Pwd" required>
+        <input type="password" class="form-control" id="Password" placeholder="Enter password" name="password" required>
         <small id="passwordHelpInline" class="text-muted">Must be 8-20 characters long.</small>
       </div>
 
     <div class="form-group col-md-6">
         <label for="inputUserLevel" class="container text-left" >User Level</label>
-        <select name="UserLevel" id="userlevel" placeholder="Enter user level (1 for Admin/2 for User)" required>
+        <select name="userlevel" id="userlevel" placeholder="Enter user level (1 for Admin/2 for User)" required>
           <option value="admin">Admin</option>
           <option value="user">User</option>
         </select>
@@ -72,11 +72,11 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputUsername" class="container text-left" >Username</label>
-      <input type="text" class="form-control" id="username" placeholder="Enter username" name="Username" required>
+      <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
     </div>
     <div class="form-group col-md-6">
         <label for="inputName" class="container text-left" >Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter name" name="Name">
+        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
       </div>
       <!-- <div class="form-group col-md-6">
         <label for="inputRanking" class="container text-left" >Ranking</label>
@@ -88,33 +88,33 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputDOB" class="container text-left">Date Of Birth</label>
-      <input type="text" class="form-control" id="dateofbirth" placeholder="Enter date of birth" name="DateOfBirth" >
+      <input type="text" class="form-control" id="dateofbirth" placeholder="Enter date of birth" name="dob" >
     </div>
     <div class="form-group col-md-6">
       <label for="inputAge" class="container text-left" >Age</label>
-      <input type="text" class="form-control" id="age" placeholder="Enter age" name="Age">
+      <input type="text" class="form-control" id="age" placeholder="Enter age" name="age">
     </div>
   </div>
 
   <!-- Gender and marital status -->
 <legend class="col-form-label col-sm-2 pt-0 text-left">Gender</legend>
       <div class="custom-control custom-radio text-left">
-        <input type="radio" id="customRadio1" name="Gender" class="custom-control-input" value="M">
+        <input type="radio" id="customRadio1" name="gender" class="custom-control-input" value="M">
         <label class="custom-control-label" for="customRadio1">Male</label>
       </div>
       <div class="custom-control custom-radio text-left">
-        <input type="radio" id="customRadio2" name="Gender" class="custom-control-input" value="F">
+        <input type="radio" id="customRadio2" name="gender" class="custom-control-input" value="F">
         <label class="custom-control-label" for="customRadio2">Female</label>
       </div>
     <br />
     <div class="form-row">
     <div class="form-group col-md-4">
         <label for="inputState"class="container text-left" name="MaritalStatus" >Marital Status</label>
-        <select id="MaritalStatus" class="form-control" name="MaritalStatus">
+        <select id="maritalstatus" class="form-control" name="maritalstatus">
           <option selected>Enter marital status</option>
-            <option value="Married" name="MaritalStatus" >Married</option> 
-            <option value="Unmarried" name="MaritalStatus" >Unmarried</option>
-            <option value="Divorced" name="MaritalStatus" >Divorced</option>
+            <option value="Married" name="maritalstatus" >Married</option> 
+            <option value="Unmarried" name="maritalstatus" >Unmarried</option>
+            <option value="Divorced" name="maritalstatus" >Divorced</option>
         </select>
       </div>
     </div>
@@ -123,11 +123,11 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputDistrict" class="container text-left">District</label>
-        <input type="text" class="form-control" id="district" placeholder="Enter district" name="District" >
+        <input type="text" class="form-control" id="district" placeholder="Enter district" name="district" >
       </div>
       <div class="form-group col-md-6">
         <label for="inputState" class="container text-left" >State</label>
-        <input type="text" class="form-control" id="state" placeholder="Enter state" name="State" required>
+        <input type="text" class="form-control" id="state" placeholder="Enter state" name="state" required>
       </div>
     </div>
 
@@ -135,16 +135,16 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputOccupation" class="container text-left">Occupation</label>
-        <input type="text" class="form-control" id="occupation" placeholder="Enter occupation" name="Occupation" >
+        <input type="text" class="form-control" id="occupation" placeholder="Enter occupation" name="occupation" >
       </div>
       <div class="form-group col-md-6">
         <label for="inputAbout" class="container text-left" >About</label>
-        <input type="text" class="form-control" id="about" placeholder="Enter about" name="About">
+        <input type="text" class="form-control" id="about" placeholder="Enter about" name="about">
       </div>
     </div>
     <!-- Submit -->
     <!-- <button type="submit" class="btn btn-success" value="Registration">Register</button> -->
-    <button type="submit" class="btn btn-success" value="Reg">Register</button>
+    <button type="submit" class="btn btn-success" value="signUp">Register</button>
 <br/><br/>
 {% if messages %}
 {% for msg in messages %}
@@ -154,6 +154,7 @@
 <hr />
 <em>If you already a member <a href="{% url 'SignIn' %}" >Login</a></em>
 <br/><br/><br/><br/>
+
   </form>
 </body>
 
