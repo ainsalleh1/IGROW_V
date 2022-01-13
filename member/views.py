@@ -306,13 +306,11 @@ def sharing(request):
         #Feed(Title=Title,Message=Message,Photo=Photo,Video=Video,Graph=Graph).save(),
         #messages.success(request,'The new feed is save succesfully..!')
 
-        user = auth.get_user(UidIdentifier)
         data={
             u'title': Title,
             u'message':Message,
             u'photo':Photo,
             u'video':Video,
-            u'userID': user.uid
 
         }
         db.collection(u'sharing').document().set(data)
