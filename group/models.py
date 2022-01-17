@@ -30,7 +30,7 @@ class GroupMember(models.Model):
 
     def save(self):
         super().save()
-        super().save(using='farming')
+       
 
 class GroupSharing(models.Model):
     class Meta:
@@ -46,7 +46,6 @@ class GroupSharing(models.Model):
 
     def save(self):
         super().save()
-        super().save(using='farming')
     
 
     

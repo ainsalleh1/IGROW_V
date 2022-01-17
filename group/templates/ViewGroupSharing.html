@@ -1,4 +1,15 @@
-<!doctype html>
+{% if mssg %}
+<script>
+    alert('{{mssg}}');
+    window.location.href = "../../ViewGroupSharing.html";
+</script>
+{% endif %}
+{% if mssgs %}
+<script>
+    alert('{{mssgs}}');
+    window.location.href = "../../../ViewGroupSharing.html";
+</script>
+{% endif %}<!doctype html>
 <html lang="en">
     <head>
         <style>
@@ -8,9 +19,36 @@
                 padding: 40px;
                 width: fit-content;
             }
-            img {
-      border-radius: 50%;
+            .m{
+              margin: 0px 0px 0px 550px;
+              
+            }
+            .content {
+          max-width: 500px;
+          margin: auto;
+          overflow-x: hidden;
+          width: 200px;
+                }
+        table{
+          border:4px solid black;
+          margin: 0 auto;
+          padding: 40px;
+          width: fit-content;
+            }
+
+        img {
+          max-width: 100%;
+          height: auto;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px;
+
+          }
+        .profileIcon{
+          border-radius: 50%;
+
         }
+            
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"0>
         
@@ -66,42 +104,80 @@
                 {% csrf_token %}
                 
                           <div class="container my-3 bg-light">
-                           
-                            <label for="exampleFormControlTextarea1" style="font-size: 2em;" >Group</label>
+                            {% for g in g %}
+                            {% if g.GName == group.GName %}   
+                            <label for="exampleFormControlTextarea1" style="font-size: 2em;"  >{{ g.GName }}</label>
+                            
                           </div>
-  
                           
-                          <br/>
-             
+                          {% endif %} 
+                          {% endfor %}
                           {% endblock content %}
                           {% block body %}
  
-{% for g in g %}
-{% if g.id == group %}                         
+{% for g in g %}     
         <div class="container">
-          <div class="row">
-            <table class="table caption-top">
-              
-              <tbody>
-         
-                <tr>
+          
+            {% if g.GName == group.GName %}
+            {% for person in person %}
+            <div class="m"><a href="{% url 'GSharing' person.id g.id %}" class="link-primary"><img src="../../media/add.png" width="30" height="30">Add Sharing</a> 
+            </div><br>    
+            <img src="../../media/{{ g.GProfile }}" width="700" height="400"><br><br>
+            <b>Creator: </b> {{ g.Person_fk.Username }}
+            <br>
+            <b>Group Title: </b>{{ g.GName }}<br>
+            <b>About: </b>{{ g.GAbout }}<br>
+            <br>
+            {% endfor %}
+            {% endif %}
                 
-                  <th scope="col"><div>
-                    <img src="media/{{ g.GProfile }}" width="600" height="600">
-                  </div><br></th>
-                  <th scope="col">Creator: {{ g.Person_fk.Username }}</th>
-                  <th scope="col">{{ g.GTitle }}</th>
-                  
-                  <!-- <th scope="col">Video</th> -->
-                  <!-- <th scope="col">Graph</th> -->
-                </tr>
+
+
                 
-              </tbody>
-            </table>
+             
       </div>
+      {% endfor %}
+      {% for person in person %}
+      {% for sharing in sharing %}
+      <div class="container my-3 bg-light">
+        <div class=profileIcon>
+          <img src="../../media/{{ sharing.Person_fk.Photo }}" width="40" height="40">
+          <b>{{sharing.Person_fk.Username}}</b>>><b>{{sharing.Group_fk.GName}}</b>
+          
+          {% if person.Username == sharing.Person_fk.Username%}
+          <div class="btn-group">
+            <a value="Edit" href="{% url 'UpdateGroupSharing' sharing.id %}">
+              <img src="../../media/edit.png" width="30" height="30"></a>
+              <a value="Delete" href="{% url 'DeleteGroupSharing' sharing.id %}">
+                <img src="../../media/delete.jpg" width="30" height="30"></a>
+                {% endif %}
+          </div>
+          <br>
+          {{ sharing.GMessage }}
         </div>
-        {% endif %}
-        {% endfor %}
+        <img src="../../media/{{sharing.GPhoto}}" width="1000" height="300">
+        <br>
+        <table class="table">
+          <tbody>
+        <tr class="table">
+        <th><img src="../../media/likes.png" width="50" height="50"> Likes</th>
+        <th><img src="../../media/comments.png" width="50" height="50"> Comment</th>
+        <th><img src="../../media/share.png" width="50" height="50"> Share</th>
+        
+      </tr>
+    </tbody>
+  </table>
+</div>
+    {% endfor %}
+    {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+      
 <br/><br/>
 {% endblock body %}
 </body>

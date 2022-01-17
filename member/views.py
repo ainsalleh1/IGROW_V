@@ -296,7 +296,8 @@ def mainSharing(request):
         feed=Feed.objects.all()
         person = Person.objects.filter(Email=request.session['Email'])
         user=Person.objects.all()
-        return render(request,'MainSharing.html',{'feed':feed, 'person':person, 'user':user})
+        sharing = GroupSharing.objects.all()
+        return render(request,'MainSharing.html',{'feed':feed, 'person':person, 'user':user, 'sharing':sharing})
     except Feed.DoesNotExist:
         raise Http404('Data does not exist')
 
@@ -326,7 +327,9 @@ def sharing(request, fk1):
 
 def viewSharing(request):
     feed = Feed.objects.all()
-    return render(request,'ViewSharing.html',{'feed':feed})  
+    sharing = GroupSharing.objects.all()
+    person = Person.objects.filter(Email=request.session['Email'])
+    return render(request,'ViewSharing.html',{'feed':feed, 'person':person, 'sharing':sharing})  
 
 def updateSharing(request, fk1):
     feed = Feed.objects.get(pk=fk1)
@@ -386,6 +389,8 @@ def GroupAdmin(request):
 
 def group(request, fk1):
     #person_fk = Person.objects.filter()
+    group=Group.objects.all()
+    user = Person.objects.filter(Email=request.session['Email'])
     person = Person.objects.get(pk=fk1)
     if request.method=='POST':
         p = Person.objects.get(pk=fk1)
@@ -394,8 +399,8 @@ def group(request, fk1):
         GProfile=request.POST.get('GProfile')
         GMedia=request.POST.get('GMedia')
         Group(GName=GName,GAbout=GAbout,GMedia=GMedia, GProfile=GProfile, Person_fk=p).save(),
-        messages.success(request,'The new group ' + request.POST['GName'] + " is create succesfully..!")
-        return render(request,'group.html',)
+        messages='The new group ' + request.POST['GName'] + ' is create succesfully..! Be the admin of the group?'
+        return render(request,'MainGroup.html',{'mssg':messages,'group':group, 'user':user})
 
     else :
         return render(request,'group.html')
@@ -419,8 +424,8 @@ def updateGroup(request, fk1, fk):
         f = Person.objects.get(pk=fk)
         #GUsername = request.POST.get('Username')
         GroupMember(Username=f.Username, Group_fk=t, Person_fk=f).save(),
-        #messages.success(request,"Your username is successfully added")
-        return render(request,'EditGroup.html', {'group':group, 'person':person, 'gmember':gmember})
+        messages.success(request,"Your username is successfully added")
+        return render(request,'homepage.html', {'group':group, 'person':person, 'gmember':gmember})
 
     else:
         return render(request, 'EditGroup.html', {'group':group, 'person':person})
@@ -428,8 +433,9 @@ def updateGroup(request, fk1, fk):
 def GSharing(request, fk1,fk3):
     group = Group.objects.get(pk=fk3)
     person = Person.objects.filter(Email=request.session['Email'])
-    
-    
+    sharing = GroupSharing.objects.all()
+    user = Person.objects.all()
+    gr = Group.objects.all()
     if request.method=='POST':
         p = Person.objects.get(pk=fk1)
         g = Group.objects.get(pk=fk3)
@@ -439,17 +445,17 @@ def GSharing(request, fk1,fk3):
         GVideo=request.POST.get('GVideo')
         
         GroupSharing(GTitle=GTitle,GMessage=GMessage,GPhoto=GPhoto,GVideo=GVideo,Person_fk=p, Group_fk=g).save(),
-        #messages.success(request,'The new feed' + request.POST['GTitle'] + "is save succesfully..!")
-        return render(request,'GSharing.html')
+        messages='The new feed' + request.POST['GTitle'] + "is save succesfully..!"
+        return render(request,'homepage.html',{'group':gr, 'person':user, 'user':person, "mssgs":messages})
     else :
-        return render(request,'GSharing.html')
+        return render(request,'AddGroupSharing.html',{'group':group, 'person':person, 'sharing':sharing})
 
-def AddGroupSharing(request):
+def AddGroupSharing(request, fk1):
     try:
-        
+        group = Group.objects.get(pk=fk1)
         person = Person.objects.filter(Email=request.session['Email'])
         #Gsharing = GroupSharing.objects.all()
-        sharing = Feed.objects.all()
+        sharing = GroupSharing.objects.all()
         return render(request,'AddGroupSharing.html',{'group':group, 'person':person, 'sharing':sharing})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
@@ -458,11 +464,37 @@ def ViewGroupSharing(request, fk1):
     try:
         group = Group.objects.get(pk=fk1)
         g = Group.objects.all()
-        return render(request,'ViewGroupSharing.html',{'group':group, 'g':g})  
+        sharing = GroupSharing.objects.all()
+        person = Person.objects.filter(Email=request.session['Email'])
+        return render(request,'ViewGroupSharing.html',{'group':group, 'g':g,'person':person,'sharing':sharing})  
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
+def deleteGroupSharing(request,fk1):
+    gsharing = GroupSharing.objects.get(pk=fk1)
+    if request.method=='POST':
+        gsharing.delete()
+        message='Group sharing is successfully deleted'
+        return redirect('../../Home',{'mssg':message})
+    context = {
+        "object" : workshop
+    }
+    return render(request, 'deleteGroupSharing.html', {'object':gsharing})
 
+def updateGroupSharing(request, fk1):
+    sharing = GroupSharing.objects.get(pk=fk1)
+    if request.method=='POST':
+       f = sharing = GroupSharing.objects.get(pk=fk1)
+       f.GTitle=request.POST['GTitle']
+       f.GMessage=request.POST.get('GMessage')
+       f.GPhoto=request.POST.get('GPhoto')
+       f.GVideo=request.POST.get('GVideo')
+       #f.Graph=request.POST['Graph']
+       f.save()
+       return redirect('../../MainGroup.html')
+       
+    else:
+        return render(request,'EditGroupSharing.html',{'sharing':sharing})
 
 
 
