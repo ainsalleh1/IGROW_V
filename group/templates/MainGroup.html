@@ -8,6 +8,9 @@
                 padding: 40px;
                 width: fit-content;
             }
+            img {
+      border-radius: 50%;
+        }
         </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"0>
         
@@ -64,9 +67,9 @@
                           <div class="container my-3 bg-light">
                             <label for="exampleFormControlTextarea1" style="font-size: 2em;" >Group</label>
                           </div>
-  
+                          {% for user in user %}
                           <div class="col-12">
-                            <a href="{% url 'Group' %}" class="link-primary">New Group</a> 
+                            <a href="{% url 'Group' user.id %}" class="link-primary">New Group</a> 
                           </div><tr></tr>
                           <div class="col-12">
                             <a href="{% url 'MyGroup' %}" class="link-primary">View Group Details</a> 
@@ -75,41 +78,46 @@
                             <a href="{% url 'AddGroupSharing' %}" class="link-primary">Add Sharing</a> 
                           </div>
                           <br/>
+                          {% endfor %}
                           {% endblock content %}
                           {% block body %}
 
+
 {% for group in group %}
-{% for person in person %}
-{% if person.UserLevel == 'user' %}
 
-<form action="{% url 'EditGroup' group.id person.id %}" method="POST" class="center">
+<!-- <form action="{% url 'ViewGroupSharing' group.id %}" method="POST" class="center"> -->
 
-{% endif %}
-  {%  endfor %}
-    {% endfor %}
+
   {% csrf_token %}
         <div class="container">
           <div class="row">
             <table class="table caption-top">
-              <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">About</th>
-                  <th scope="col">Media</th>
-                  <th scope="col">Detail</th>
-                </tr>
-              </thead>
+              
               <tbody>
-                {% for group in group %}
+                
                 <tr>
+                  <th><img src="media/{{ group.GProfile }}" width="200" height="200"></th>
                   <th scope="row" value="{{ Group.GName }}">{{ group.GName }}</th>
                   <th scope="row" value="{{ Group.GAbout }}">{{ group.GAbout }}</th>
-                  <th scope="row" value="{{ Group.GMedia }}">{{ group.GMedia }}</th>
+                  <!-- <th scope="row" value="{{ Group.GMedia }}">{{ group.GMedia }}</th> -->
                   <td>
-                    <button type="submit" class="btn btn-success " value="View">Join</button>
+                    <a href="{% url 'ViewGroupSharing' group.id %}" class="link-primary">View Group</a>
+                    <!-- <button type="submit" class="btn btn-success " value="View">View Group</button> -->
                   </td>
                   <td>
-                    <a href="{% url 'ViewGroupSharing' %}" class="link-primary">View Sharing</a> 
+                 
+                   
+                    {% for user in user %}
+                    {% if group.Person_fk.UserLevel == 'user' %}
+                    {% if group.Person_fk.Email != user.Email %}        
+                    <a href="{% url 'EditGroup' group.id person.id %}" class="link-primary">
+                      <img src="media/join.png" width="40" height="40"></a> 
+                      {% endif %}
+                      {% endif %}
+                      {% endfor %} 
+                   
+                     
+                  
                   </td>
                 </tr>
                 {% endfor %}
@@ -117,7 +125,7 @@
             </table>
       </div>
         </div>
-</form>
+<!-- </form> -->
 
 <br/><br/>
 {% endblock body %}

@@ -12,6 +12,9 @@
         padding: 60px;
         width: fit-content;
           }
+      img {
+      border-radius: 50%;
+        }
     </style>
 </head>
   
@@ -59,12 +62,13 @@
 <form class="form-horizontal" method="POST" ><input type="hidden" name="csrfmiddlewaretoken" value="LUo8yACYeqTzOUYPx81ouuqmkcDTGHdxJkRjbmc5wCVtI7LYrhK5sUxWg2LWIEWX">
   
   {% csrf_token %}
+  {% for person in person %}
+  <div>
+    <img src="media/{{ person.Photo }}" width="300" height="300">
+  </div><br>
       <div class="form-row field-Email mb-3 row">
-      {% for person in person %}
-      <div>
-        <label for="inputImage"></label>
-        <input type="file" class="form-control" id="inputMedia" name="  Photo" value="{{ person.photo }}">
-      </div>
+      
+      
         <div>
           <label class="required" for="id_Email">Email:</label>
             <input type="text" name="Email" value="{{ person.Email }}"  class="vTextField" maxlength="150" required="" id="id_Email">

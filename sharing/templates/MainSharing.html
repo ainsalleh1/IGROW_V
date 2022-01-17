@@ -5,6 +5,8 @@
         .content {
           max-width: 500px;
           margin: auto;
+          overflow-x: hidden;
+          width: 200px;
                 }
         table{
           border:4px solid black;
@@ -12,6 +14,24 @@
           padding: 40px;
           width: fit-content;
             }
+
+        img {
+          max-width: 100%;
+          height: auto;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px;
+
+          }
+        .profileIcon{
+          border-radius: 50%;
+
+        }
+        .m
+        {
+          margin-left:550px;
+        }
+        
       </style>
 </head>
 
@@ -61,39 +81,57 @@
           <div class="col-8">
             <body>  
               {% csrf_token %}
+              
+              {% for person in person %}
                         <div class="container my-3 bg-light">
                           <label for="exampleFormControlTextarea1" style="font-size: 2em;" >Sharing</label>
-                        </div>
+                          <div class="m">
+                            <a href="{% url 'Sharing' person.id %}" class="link-primary"><img src="media/add.png" width="30" height="30">New Sharing</a> 
+                          </div>
+                          
+                            </div>
+                          
+                        
 
-                        <div class="col-12">
-                          <a href="{% url 'Sharing' %}" class="link-primary">New Sharing</a> 
-                        </div><br/>
+                        
+                        {% endfor %}
 {% endblock content %}
 {% block body %}
 
-<table class="table">
-    <thead>
-        <th scope="row">Title</th>
-        <th scope="row">Message</th>
-        <th scope="row">Detail</th>
-    </thead>
-    <tbody>
+
       {% csrf_token %}
+      {% for person in person %}
       {% for feed in feed %}
-      <tr class="table">
-        <th scope="row" value="{{ feed.Title }}">{{ feed.Title }}</th>
-        <th scope="row" value="{{ feed.Message }}">{{ feed.Message }}</th>
-        <td>
+
+        <div class=profileIcon>
+          <img src="media/{{ feed.Person_fk.Photo }}" width="40" height="40">
+          <b>{{feed.Person_fk.Username}}</b>
+          
+          {% if person.Username == feed.Person_fk.Username%}
           <div class="btn-group">
-            <a value="Edit" href="{% url 'UpdateSharing' %}">Edit</a>
-            <br/>
-            <a value="Delete" href="{% url 'DeleteSharing' %}">Delete</a>
+            <a value="Edit" href="{% url 'UpdateSharing' feed.id %}">
+              <img src="media/edit.png" width="30" height="30"></a>
+              <a value="Delete" href="{% url 'DeleteSharing' feed.id %}">
+                <img src="media/delete.jpg" width="30" height="30"></a>
+                {% endif %}
           </div>
-        </td>
+          <br>
+          {{ feed.Message }}
+        </div>
+        <img src="media/{{feed.Photo}}" width="1000" height="300">
+        <br>
+        <table class="table">
+          <tbody>
+        <tr class="table">
+        <th><img src="media/likes.png" width="50" height="50"> Likes</th>
+        <th><img src="media/comments.png" width="50" height="50"> Comment</th>
+        <th><img src="media/share.png" width="50" height="50"> Share</th>
+        
       </tr>
     </tbody>
-    {% endfor %}
   </table>
+    {% endfor %}
+    {% endfor %}
   
   </div>
   </div>

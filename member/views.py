@@ -143,6 +143,8 @@ def signUp(request):
     else :
         return render(request,'registration.html')
 
+
+
 def postsign(request):
     email = request.POST.get("email")
     password = request.POST.get("password")
@@ -173,9 +175,9 @@ def Indexpage(request):
     return render(request, 'index.html')
 
 def homepage(request):
-    #person = Person.objects.filter(Email=request.session['Email'])
+    person = Person.objects.filter(Email=request.session['Email'])
     
-    return render(request, 'homepage.html')
+    return render(request, 'homepage.html',{'person': person })
 
 def homepageAdmin(request):
     person = Person.objects.filter(Email=request.session['Email'])
@@ -183,35 +185,35 @@ def homepageAdmin(request):
 
 
 #user registration
-#def UserReg(request):
+def UserReg(request):
     if request.method=='POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        username=request.POST.get('username')
-        name=request.POST.get('name')
-        dob=request.POST.get('dob')
-        age=request.POST.get('age')
-        district=request.POST.get('district')
-        state=request.POST.get('state')
-        occupation=request.POST.get('occupation')
-        about=request.POST.get('about')
-        gender=request.POST.get('gender')
-        maritalstatus=request.POST.get('maritalstatus')
-        userlevel = request.POST.get('userlevel')
+        Email = request.POST.get('email')
+        Password = request.POST.get('password')
+        Username=request.POST.get('username')
+        Name=request.POST.get('name')
+        DateOfBirth=request.POST.get('dob')
+        Age=request.POST.get('age')
+        District=request.POST.get('district')
+        State=request.POST.get('state')
+        Occupation=request.POST.get('occupation')
+        About=request.POST.get('about')
+        Gender=request.POST.get('gender')
+        MaritalStatus=request.POST.get('maritalstatus')
+        UserLevel = request.POST.get('userlevel')
         Photo = request.POST.get('Photo')
         #resume = request.POST.get('resume')
-        # Person(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
-        #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus,UserLevel=UserLevel,Photo=Photo).save(),
+        Person(Email=Email,Password=Password,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
+            Occupation=Occupation,About=About,Gender=Gender,MaritalStatus=MaritalStatus,UserLevel=UserLevel,Photo=Photo).save(),
 
-        try: 
-            user=authe.create_user_with_email_and_password(email,password)
-        except:
-            message="Unable to create a new user. Please try again"
-            return render(request,'registration.html', {"mssg":message})
-        uid=user['localId']
+        #try: 
+        #    user=authe.create_user_with_email_and_password(email,password)
+        #except:
+        #    message="Unable to create a new user. Please try again"
+        #    return render(request,'registration.html', {"mssg":message})
+        #uid=user['localId']
         
-        data={username: "username", name:"name", dob:"dob", age:"age", district:"district", state:"state", occupation:"occupation",about:"about", gender:"gender", maritalstatus:"maritalstatus", userlevel:"userlevel"}
-        Database.child("person").child(uid).child("details").set(data)
+        #data={username: "username", name:"name", dob:"dob", age:"age", district:"district", state:"state", occupation:"occupation",about:"about", gender:"gender", maritalstatus:"maritalstatus", userlevel:"userlevel"}
+        #Database.child("person").child(uid).child("details").set(data)
 
         #ranking = request.POST.get('ranking')
         
@@ -224,7 +226,7 @@ def homepageAdmin(request):
         #     Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus).save(),
         # FarmingPerson(Email=Email,Password=Pwd,Username=Username,Name=Name,DateOfBirth=DateOfBirth,Age=Age,District=District,State=State,
             # Occupation=Occupation,About=About,Gender=Gen,MaritalStatus=MaritalStatus),
-        #messages.success(request,'The new user ' + request.POST['Username'] + " is save succesfully..!")
+        #messages.success(request,'The new user ' + request.POST['Email'] + " is save succesfully..!")
         return render(request,'registration.html')
     else :
         return render(request,'registration.html')
@@ -232,7 +234,7 @@ def homepageAdmin(request):
 
 
 #user login
-#def loginpage(request):
+def loginpage(request):
     if request.method == "POST":
         try:
             #UserLevel = Person.objects.get(Userlevel = request.POST['UserLevel'])
@@ -292,29 +294,33 @@ def UserList(request):
 def mainSharing(request):
     try:
         feed=Feed.objects.all()
-        return render(request,'MainSharing.html',{'feed':feed})
+        person = Person.objects.filter(Email=request.session['Email'])
+        user=Person.objects.all()
+        return render(request,'MainSharing.html',{'feed':feed, 'person':person, 'user':user})
     except Feed.DoesNotExist:
         raise Http404('Data does not exist')
 
-def sharing(request):
+def sharing(request, fk1):
+    person = Person.objects.get(pk=fk1)
     if request.method=='POST':
         Title=request.POST.get('Title')
         Message=request.POST.get('Message')
         Photo=request.POST.get('Photo')
         Video=request.POST.get('Video')
+        f = Person.objects.get(pk=fk1)
         #Graph=request.POST.get('Graph')
-        #Feed(Title=Title,Message=Message,Photo=Photo,Video=Video,Graph=Graph).save(),
-        #messages.success(request,'The new feed is save succesfully..!')
+        Feed(Title=Title,Message=Message,Photo=Photo,Video=Video,Person_fk=f).save(),
+        messages.success(request,'The new feed is save succesfully..!')
 
-        data={
-            u'title': Title,
-            u'message':Message,
-            u'photo':Photo,
-            u'video':Video,
+        #data={
+        #    u'title': Title,
+        #    u'message':Message,
+        #    u'photo':Photo,
+        #    u'video':Video,
 
-        }
-        db.collection(u'sharing').document().set(data)
-        return render(request,'sharing.html')
+        #}
+        #db.collection(u'sharing').document().set(data)
+        return render(request,'sharing.html',{'person':person})
     else :
         return render(request,'sharing.html')
 
@@ -322,29 +328,30 @@ def viewSharing(request):
     feed = Feed.objects.all()
     return render(request,'ViewSharing.html',{'feed':feed})  
 
-def updateSharing(request):
-    feed = Feed.objects.get(Title=request.session['Title'])
+def updateSharing(request, fk1):
+    feed = Feed.objects.get(pk=fk1)
     if request.method=='POST':
-       f = Feed.objects.get(Title=request.session['Title'])
+       f = feed = Feed.objects.get(pk=fk1)
        f.Title=request.POST['Title']
        f.Message=request.POST.get('Message')
        f.Photo=request.POST.get('Photo')
        f.Video=request.POST.get('Video')
-       f.Graph=request.POST['Graph']
+       #f.Graph=request.POST['Graph']
        f.save()
-       return render(request,'ViewSharing.html',{'feed':feed})
+       return redirect('../../MainSharing.html')
+       
     else:
-        return render(request, 'homepage.html', {'feed':feed})
+        return render(request,'ViewSharing.html',{'feed':feed})
 
-def deleteSharing(request,id):
-    sharing = get_object_or_404(sharing, id=id)
+def deleteSharing(request,fk1):
+    feed = Feed.objects.get(pk=fk1)
     if request.method=='POST':
-        sharing.delete()
-        return redirect('homepage.html')
+        feed.delete()
+        return redirect('../../Home')
     context = {
-        "object" : sharing
+        "object" : feed
     }
-    return render(request, 'deleteSharing.html', {'object':sharing})
+    return render(request, 'deleteSharing.html', {'object':feed})
 
     #feed_id = int(feed_id)
     #try:
@@ -363,9 +370,10 @@ def mainGroup(request):
     try:
         group=Group.objects.all()
         person = Person.objects.all()
-        #Gsharing = GroupSharing.objects.all()
-        sharing = Feed.objects.all()
-        return render(request,'MainGroup.html',{'group':group, 'person':person, 'sharing':sharing})
+        user = Person.objects.filter(Email=request.session['Email'])
+        Gsharing = GroupSharing.objects.all()
+        #feed = Feed.objects.all()
+        return render(request,'MainGroup.html',{'group':group, 'person':person, 'user':user})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
@@ -376,13 +384,16 @@ def GroupAdmin(request):
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
-def group(request):
+def group(request, fk1):
     #person_fk = Person.objects.filter()
+    person = Person.objects.get(pk=fk1)
     if request.method=='POST':
+        p = Person.objects.get(pk=fk1)
         GName=request.POST.get('GName')
         GAbout=request.POST.get('GAbout')
+        GProfile=request.POST.get('GProfile')
         GMedia=request.POST.get('GMedia')
-        Group(GName=GName,GAbout=GAbout,GMedia=GMedia).save(),
+        Group(GName=GName,GAbout=GAbout,GMedia=GMedia, GProfile=GProfile, Person_fk=p).save(),
         messages.success(request,'The new group ' + request.POST['GName'] + " is create succesfully..!")
         return render(request,'group.html',)
 
@@ -417,15 +428,17 @@ def updateGroup(request, fk1, fk):
 def GSharing(request, fk1,fk3):
     group = Group.objects.get(pk=fk3)
     person = Person.objects.filter(Email=request.session['Email'])
-    g = Group.objects.get(pk=fk3)
-    p = Person.objects.get(pk=fk1)
+    
+    
     if request.method=='POST':
+        p = Person.objects.get(pk=fk1)
+        g = Group.objects.get(pk=fk3)
         GTitle=request.POST.get('GTitle')
         GMessage=request.POST.get('GMessage')
         GPhoto=request.POST.get('GPhoto')
         GVideo=request.POST.get('GVideo')
-        GGraph=request.POST.get('GGraph')
-        GroupSharing(GTitle=GTitle,GMessage=GMessage,GPhoto=GPhoto,GVideo=GVideo,GGraph=GGraph,Person_fk=p,Group_fk=g).save(),
+        
+        GroupSharing(GTitle=GTitle,GMessage=GMessage,GPhoto=GPhoto,GVideo=GVideo,Person_fk=p, Group_fk=g).save(),
         #messages.success(request,'The new feed' + request.POST['GTitle'] + "is save succesfully..!")
         return render(request,'GSharing.html')
     else :
@@ -433,7 +446,7 @@ def GSharing(request, fk1,fk3):
 
 def AddGroupSharing(request):
     try:
-        group=Group.objects.all()
+        
         person = Person.objects.filter(Email=request.session['Email'])
         #Gsharing = GroupSharing.objects.all()
         sharing = Feed.objects.all()
@@ -441,10 +454,13 @@ def AddGroupSharing(request):
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
-def ViewGroupSharing(request):
-    person = Person.objects.filter(Email=request.session['Email'])
-    feed = GroupSharing.objects.all()
-    return render(request,'ViewGroupSharing.html',{'feed':feed, 'person':person})  
+def ViewGroupSharing(request, fk1):
+    try:
+        group = Group.objects.get(pk=fk1)
+        g = Group.objects.all()
+        return render(request,'ViewGroupSharing.html',{'group':group, 'g':g})  
+    except Group.DoesNotExist:
+        raise Http404('Data does not exist')
 
 
 
@@ -532,9 +548,19 @@ def workshop(request):
 def BookWorkshop(request):
         try:
             data=Workshop.objects.all()
-            return render(request,'BookWorkshop.html',{'data':data})
+            person = Person.objects.filter(Email=request.session['Email'])
+            return render(request,'BookWorkshop.html',{'data':data,'person':person})
         except Workshop.DoesNotExist:
-            raise Http404('Data does not exist')
+            raise Http404('Data does not exist') 
+
+def BookingList(request):
+        try:
+            data=Workshop.objects.all()
+            booking = Booking.objects.all()
+            person = Person.objects.filter(Email=request.session['Email'])
+            return render(request,'BookingList.html',{'data':data,'person':person,'booking':booking})
+        except Workshop.DoesNotExist:
+            raise Http404('Data does not exist') 
             
 def createWorkshop(request):
     if request.method=='POST':
@@ -548,7 +574,7 @@ def createWorkshop(request):
     else :
         return render(request,'CreateWorkshop.html')
 
-def booking(request):
+def booking(request, fk1):
     #person = Person.objects.filter(Email=request.session['Email'])
     #return render(request, 'booking.html',{'person': person})
 
@@ -557,18 +583,20 @@ def booking(request):
     #    return render(request,'booking.html',{'data':data})
     #except Workshop.DoesNotExist:
     #    raise Http404('Data does not exist')
+    person = Person.objects.get(pk=fk1)
     data=Workshop.objects.all()
-    person = Person.objects.filter(Email=request.session['Email'])
+    booking=Booking.objects.all()
+    p1 = Person.objects.filter(Email=request.session['Email'])
     if request.method=='POST':
-        Name=request.POST.get('Name')
+        p = Person.objects.get(pk=fk1)
         ProgrammeName=request.POST.get('ProgrammeName')
         Date=request.POST.get('Date')
         Session=request.POST.get('Session')
-        Booking(Name=Name,ProgrammeName=ProgrammeName,Date=Date,Session=Session).save(),
-        messages.success(request,'The booking of is save succesfully..!')
-        return render(request,'workshop.html',{'data':data, 'person':person})
+        Booking(ProgrammeName=ProgrammeName,Date=Date,Session=Session, Person_fk=p).save(),
+        message="The booking of is save succesfully..!"
+        return render(request,'BookWorkshop.html',{'data':data, 'p1':p1,'booking':booking, "mssg":message})
     else :
-       return render(request,'workshop.html')
+       return render(request,'BookWorkshop.html',{'data':data, 'p1':p1, 'booking':booking})
 
     #data = Workshop.objects.all#filter(ProgrammeName=request.session['ProgrammeName'])
     #return render(request, 'booking.html',{'data': data})
@@ -576,6 +604,27 @@ def booking(request):
 #class Users(viewsets.ModelViewSet):
 #    queryset = Users.objects.all() 
 #    serializer_class = UsersSerializer
+
+def deleteWorkshop(request,fk1):
+    workshop = Workshop.objects.get(pk=fk1)
+    if request.method=='POST':
+        workshop.delete()
+        return redirect('../../HomeAdmin')
+    context = {
+        "object" : workshop
+    }
+    return render(request, 'deleteSharing.html', {'object':workshop})
+
+def deleteBooking(request,fk1):
+    booking = Booking.objects.get(pk=fk1)
+    if request.method=='POST':
+        booking.delete()
+        message="The booking of is save succesfully..!"
+        return redirect('../../BookingList.html', {"mssg":message})
+    context = {
+        "object" : booking
+    }
+    return render(request, 'deleteBooking.html', {'object':booking})
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)

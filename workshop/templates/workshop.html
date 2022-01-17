@@ -27,7 +27,7 @@
           <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="{% url 'GroupAdmin' %}" role="tab" aria-controls="discussion" aria-selected="true">Group</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="{% url 'Booking' %}" role="tab" aria-controls="discussion" aria-selected="true">Booking</a>
+          <a class="nav-link active" id="discussion-tab" data-bs-toggle="tab" href="{% url 'BookingList' %}" role="tab" aria-controls="discussion" aria-selected="true">Booking</a>
         </li>
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="workshop-tab" data-bs-toggle="tab" href="{% url 'Workshop' %}" role="tab" aria-controls="workshop" aria-selected="true">Workshop</a>
@@ -81,7 +81,7 @@
               <th scope="row" value="{{ data.Date }}">{{ data.Date }}</th>
               <th scope="row" value="{{ data.Session }}">{{ data.Session }}</th>
               <td>
-                <a href="" class="card-link">Delete</a>
+                <a href="{% url 'deleteWorkshop' data.id %}" class="card-link">Delete</a>
               </td>
             </tr>
             {% endfor %}

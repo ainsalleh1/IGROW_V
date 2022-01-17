@@ -1,3 +1,8 @@
+{% if mssg %}
+<script>
+    alert('{{mssg}}');
+</script>
+{% endif %}
 <!doctype html>
 <html lang="en">
 <head></head>
@@ -45,7 +50,9 @@
     <br/>
     {% csrf_token %}
     {% block body %}
-  <form action="{% url 'Booking' %}" method="POST" class="center">
+    {% for person in person %}
+  <form action="{% url 'Booking' person.id %}" method="POST" class="center">
+    {% endfor %}
     {% csrf_token %}
     <div class="container">
       <!-- <a href="{% url 'CreateWorkshop' %}" class="link-primary">Create</a>  -->
@@ -62,16 +69,21 @@
           </thead>
           <tbody>
             {% for data in data %}
+            
             <tr class="table">
               <th scope="row" value="{{ data.ProgrammeName }}">{{ data.ProgrammeName }}</th>
               <th scope="row" value="{{ data.Description }}">{{ data.Description }}</th>
               <th scope="row" value="{{ data.Date }}">{{ data.Date }}</th>
               <th scope="row" value="{{ data.Session }}">{{ data.Session }}</th>
               <td>
-                <!-- <a href="{% url 'Booking' %}" class="card-link">Book</a> -->
+                <input type="hidden" value="{{ data.ProgrammeName }}" name="ProgrammeName">
+                <input type="hidden" value="{{ data.Description }}" name="Description" >
+                <input type="hidden" value="{{ data.Date }}" name="Date" >
+                <input type="hidden" value="{{ data.Session }}" name="Session" >
                 <button type="submit" class="btn btn-success" value="Book">Book</button>
               </td>
             </tr>
+           
             {% endfor %}
           </tbody>
         </table>

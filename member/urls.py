@@ -43,26 +43,26 @@ from .api import UserList, UserDetail, UserAuthentication
 urlpatterns = [
 
     #url(r'^admin/', admin.site.urls),
-    url(r'^$',views.signIn, name="SignIn"),
+    #url(r'^$',views.signIn, name="SignIn"),
     #url('sign',views.signUp),
-    path('registration.html',views.signUp, name="signUp"),
+    #path('registration.html',views.signUp, name="signUp"),
     url('^postsign/',views.postsign),
     path('',views.Indexpage),
     path('Home',views.homepage, name="Home"),
     path('HomeAdmin',views.homepageAdmin, name="HomeAdmin"),
-    #path('Registration', views.UserReg, name="Reg"),
-    #path('Loginpage', views.loginpage, name="Loginpage"),
+    path('Registration', views.UserReg, name="Reg"),
+    path('Loginpage', views.loginpage, name="Loginpage"),
     path('Logout',views.logout, name="Logout"),
     path('View',views.view,name="View"),
 
     path('MainSharing.html',views.mainSharing, name="MainSharing"),
-    path('sharing.html',views.sharing, name="Sharing"),
-    path('ViewSharing',views.viewSharing,name="ViewSharing"),
-    path('UpdateSharing',views.updateSharing, name="UpdateSharing"),
-    path('DeleteSharing.html', views.deleteSharing, name="DeleteSharing"),
+    path('sharing.html/<str:fk1>/',views.sharing, name="Sharing"),
+    #path('ViewSharing',views.viewSharing,name="ViewSharing"),
+    path('ViewSharing.html/<str:fk1>/',views.updateSharing, name="UpdateSharing"),
+    path('DeleteSharing.html/<str:fk1>/', views.deleteSharing, name="DeleteSharing"),
 
     path('MainGroup.html',views.mainGroup, name="MainGroup"),
-    path('group.html',views.group, name="Group"),
+    path('group.html/<str:fk1>/',views.group, name="Group"),
     path('MyGroup.html',views.myGroup, name="MyGroup"),
     path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
     #path('CreategroupAdmin.html',views.GroupAdmin, name="GroupAdmin"),
@@ -71,7 +71,7 @@ urlpatterns = [
     #url(r'^world/(?P<world_pk>\d+)/(?P<country_pk>\d+)/$'
     path('AddGroupSharing.html', views.AddGroupSharing, name="AddGroupSharing"),
     path('GSharing.html/<str:fk1>/<str:fk3>/', views.GSharing, name="GSharing"),
-    path('ViewGroupSharing.html', views.ViewGroupSharing, name="ViewGroupSharing"),
+    path('ViewGroupSharing.html/<str:fk1>/', views.ViewGroupSharing, name="ViewGroupSharing"),
     
 
     path('MainMember.html', views.mainMember, name="MainMember"),
@@ -82,9 +82,12 @@ urlpatterns = [
     path('UserList', views.UserList, name="UserList"),
 
     path('workshop.html',views.workshop, name="Workshop"),
-    path('booking.html',views.booking, name="Booking"),
+    path('booking.html/<str:fk1>/',views.booking, name="Booking"),
     path('CreateWorkshop.html',views.createWorkshop, name="CreateWorkshop"),
     path('BookWorkshop.html',views.BookWorkshop, name="BookWorkshop"),
+    path('BookingList.html',views.BookingList, name="BookingList"),
+    path('deleteWorkshop.html/<str:fk1>/',views.deleteWorkshop, name="deleteWorkshop"),
+    path('deleteBooking.html/<str:fk1>/',views.deleteBooking, name="deleteBooking"),
 
     url(r'^api/users_list/$', UserList.as_view(), name='user_list'),
     #url(r'^api/users_list/(?P<Person>\d+)/$', UserDetail.as_view(), name='user_list'),

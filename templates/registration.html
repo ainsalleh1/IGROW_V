@@ -29,7 +29,7 @@
    <p class="h3 text-center align-content: center;">Templates Registration Form</p>
    <hr/>
    <br/>
-<form method="POST" class="container text-center" action="{% url 'signUp' %}">
+<form method="POST" class="container text-center" action="{% url 'Reg' %}">
   {% csrf_token %}
 
   <div class="form-row">
@@ -152,7 +152,7 @@
 {% endfor %}
 {% endif %}
 <hr />
-<em>If you already a member <a href="{% url 'SignIn' %}" >Login</a></em>
+<em>If you already a member <a href="{% url 'Loginpage' %}" >Login</a></em>
 <br/><br/><br/><br/>
 
   </form>

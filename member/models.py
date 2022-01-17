@@ -35,7 +35,7 @@ class Person(models.Model):
     Gender = models.CharField(max_length=1)
     MaritalStatus = models.CharField(max_length=150)
     UserLevel = models.CharField(max_length=10)
-    Photo = models.ImageField(null=True, blank=True)
+    Photo = models.ImageField(upload_to ='images/')
     #resume = models.ImageField(null=True, blank=True)
 
     def save(self):

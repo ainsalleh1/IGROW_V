@@ -14,9 +14,9 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('MainSharing.html',views.mainSharing, name="MainSharing"),
-    path('sharing.html',views.sharing, name="Sharing"),
+     path('sharing.html/<str:fk1>/',views.sharing, name="Sharing"),
     #path('ViewSharing',views.viewSharing,name="ViewSharing"),
-    path('UpdateSharing',views.updateSharing, name="UpdateSharing"),
+    path('ViewSharing.html/<str:fk1>/',views.updateSharing, name="UpdateSharing"),
     path('deleteSharing.html', views.deleteSharing, name="DeleteSharing"),
 
 

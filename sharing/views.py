@@ -12,6 +12,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from cryptography.fernet import Fernet
+from member.models import Person
 from sharing.models import Feed
 # from .models import Person
 
@@ -32,30 +33,41 @@ def sharing(request):
         Message=request.POST.get('Message')
         Photo=request.POST.get('Photo')
         Video=request.POST.get('Video')
-        Graph=request.POST.get('Graph')
-        Feed(Title=Title,Message=Message,Photo=Photo,Video=Video,Graph=Graph).save(),
+        #person = Person.objects.filter(Email=request.session['id'])
+        #Graph=request.POST.get('Graph')
+        Feed(Title=Title,Message=Message,Photo=Photo,Video=Video).save(),
         messages.success(request,'The new feed is save succesfully..!')
+
+        #data={
+        #    u'title': Title,
+        #    u'message':Message,
+        #    u'photo':Photo,
+        #    u'video':Video,
+
+        #}
+        #db.collection(u'sharing').document().set(data)
         return render(request,'sharing.html')
     else :
         return render(request,'sharing.html')
+
 
 #def viewSharing(request):
     #feed = Feed.objects.all()
     #return render(request,'ViewSharing.html',{'feed':feed})  
 
-def updateSharing(request):
-    #feed = Feed.objects.filter(Title=request.session['Title'])
+def updateSharing(request, fk1):
+    feed = Feed.objects.get(pk=fk1)
     if request.method=='POST':
-       f = Feed.objects.get(Title=request.session['Title'])
+       f = feed = Feed.objects.get(pk=fk1)
        f.Title=request.POST['Title']
        f.Message=request.POST.get('Message')
        f.Photo=request.POST.get('Photo')
        f.Video=request.POST.get('Video')
-       f.Graph=request.POST['Graph']
+       #f.Graph=request.POST['Graph']
        f.save()
-       return render(request,'ViewSharing.html')
+       return render(request,'ViewSharing.html',{'feed':feed})
     else:
-        return render(request, 'homepage.html', {'feed': Feed})
+        return render(request, 'homepage.html', {'feed':feed})
 
 def deleteSharing(request,id):
     sharing = get_object_or_404(sharing, id=id)

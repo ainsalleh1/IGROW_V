@@ -65,6 +65,11 @@
         <input type="text" name="Username" value="{{ person.Username }}"  class="vTextField" maxlength="150" readonly>{{person.Username}}
         {% endfor %}
        </div> -->
+       <div class="col-12">
+        <label for="inputImage" class="form-label">Profile Photo : </label>
+        <input type="file" class="form-control" id="inputMedia" name="GProfile" placeholder="Enter Media">
+      </div>
+      <br/>
       <div class="col-md-4">
        <label for="inputName" class="form-label">Name : </label>
        <input type="text" name="GName" value="{{ Group.GName }}"  class="vTextField" maxlength="150" required="" id="id_Name">
