@@ -374,9 +374,10 @@ def mainGroup(request):
         group=Group.objects.all()
         person = Person.objects.all()
         user = Person.objects.filter(Email=request.session['Email'])
-        Gsharing = GroupSharing.objects.all()
+        member = GroupMember.objects.all()
+
         #feed = Feed.objects.all()
-        return render(request,'MainGroup.html',{'group':group, 'person':person, 'user':user})
+        return render(request,'MainGroup.html',{'group':group, 'person':person, 'user':user, 'member':member})
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 
@@ -415,20 +416,21 @@ def myGroup(request):
 
 def updateGroup(request, fk1, fk):
     #group = Group.objects.filter(Name=request.session['GName'])
-    p = Person.objects.filter(Email=request.session['Email'])
-    group = Group.objects.get(pk=fk1)
+    user = Person.objects.filter(Email=request.session['Email'])
+    g = Group.objects.get(pk=fk1)
     person = Person.objects.filter(Email=request.session['Email'])
     gmember = GroupMember.objects.all()
+    group = Group.objects.all()
     if request.method=='POST':
         t = Group.objects.get(pk=fk1)
         f = Person.objects.get(pk=fk)
         #GUsername = request.POST.get('Username')
         GroupMember(Username=f.Username, Group_fk=t, Person_fk=f).save(),
-        messages.success(request,"Your username is successfully added")
-        return render(request,'homepage.html', {'group':group, 'person':person, 'gmember':gmember})
+        messages="Your username is successfully added"
+        return redirect('../../../MainGroup.html', {'group':group, 'person':person, 'gmember':gmember,'user':user, 'g':g})
 
     else:
-        return render(request, 'EditGroup.html', {'group':group, 'person':person})
+        return render(request, 'EditGroup.html', {'group':group, 'person':person, 'user':user, 'g':g})
 
 def GSharing(request, fk1,fk3):
     group = Group.objects.get(pk=fk3)
@@ -466,7 +468,9 @@ def ViewGroupSharing(request, fk1):
         g = Group.objects.all()
         sharing = GroupSharing.objects.all()
         person = Person.objects.filter(Email=request.session['Email'])
-        return render(request,'ViewGroupSharing.html',{'group':group, 'g':g,'person':person,'sharing':sharing})  
+        user = Person.objects.all()
+        member = GroupMember.objects.all()
+        return render(request,'ViewGroupSharing.html',{'group':group, 'g':g,'person':person,'sharing':sharing, 'member':member,'user':user})  
     except Group.DoesNotExist:
         raise Http404('Data does not exist')
 

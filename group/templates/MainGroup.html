@@ -6,11 +6,14 @@
 {% endif %}
 {% for group in group %}
 {% for user in user %}
+{% if group.Person_fk.Email == user.Email %}
 {% if mssg %}
 <script>
     alert('{{mssg}}');
+    window.location.href = "../../../";
     window.location.href = "{% url 'EditGroup' group.id user.id %}";
 </script>
+{% endif %}
 {% endif %}
 {% endfor %}
 {% endfor %}
@@ -87,9 +90,7 @@
                           <div class="col-12">
                             <a href="{% url 'Group' user.id %}" class="link-primary">New Group</a> 
                           </div><tr></tr>
-                          <div class="col-12">
-                            <a href="{% url 'MyGroup' %}" class="link-primary">View Group Details</a> 
-                          </div>
+                          
                           
                           <br/>
                           {% endfor %}
@@ -121,15 +122,14 @@
                   <td>
                  
                    
+                    
+                    
+                  
                     {% for user in user %}
-                    {% if group.Person_fk.UserLevel == 'user' %}
-                    {% if group.Person_fk.Email != user.Email %}        
-                    <a href="{% url 'EditGroup' group.id person.id %}" class="link-primary">
+                    <a href="{% url 'EditGroup' group.id user.id %}" class="link-primary">
                       <img src="media/join.png" width="40" height="40"></a> 
-                      {% endif %}
-                      {% endif %}
-                      {% endfor %} 
-                   
+                      {% endfor %}
+                     
                      
                   
                   </td>

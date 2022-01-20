@@ -130,43 +130,46 @@
       </tr>
     </tbody>
   </table>
-</div>
-    {% endfor %}
-    {% endfor %}
-  
-    {% for person in person %}
-      {% for sharing in sharing %}
-      <div class="container my-3 bg-light">
-        <div class=profileIcon>
-          <img src="../../media/{{ sharing.Person_fk.Photo }}" width="40" height="40">
-          <b>{{sharing.Person_fk.Username}}</b>>><b>{{sharing.Group_fk.GName}}</b>
-          
-          {% if person.Username == sharing.Person_fk.Username%}
-          <div class="btn-group">
-            <a value="Edit" href="{% url 'UpdateGroupSharing' sharing.id %}">
-              <img src="../../media/edit.png" width="30" height="30"></a>
-              <a value="Delete" href="{% url 'DeleteGroupSharing' sharing.id %}">
-                <img src="../../media/delete.jpg" width="30" height="30"></a>
-                {% endif %}
-          </div>
-          <br>
-          {{ sharing.GMessage }}
-        </div>
-        <img src="../../media/{{sharing.GPhoto}}" width="1000" height="300">
-        <br>
-        <table class="table">
-          <tbody>
-        <tr class="table">
-        <th><img src="../../media/likes.png" width="50" height="50"> Likes</th>
-        <th><img src="../../media/comments.png" width="50" height="50"> Comment</th>
-        <th><img src="../../media/share.png" width="50" height="50"> Share</th>
+
+  {% endfor %}
+  {% endfor %}
+
+  {% for person in person %}
+    {% for sharing in sharing %}
+    <div class="container my-3 bg-light">
+      <div class=profileIcon>
+        <img src="../../media/{{ sharing.Person_fk.Photo }}" width="40" height="40">
+        <b>{{sharing.Person_fk.Username}}</b>>><b>{{sharing.Group_fk.GName}}</b>
         
-      </tr>
-    </tbody>
-  </table>
+        {% if person.Username == sharing.Person_fk.Username%}
+        <div class="btn-group">
+          <a value="Edit" href="{% url 'UpdateGroupSharing' sharing.id %}">
+            <img src="../../media/edit.png" width="30" height="30"></a>
+            <a value="Delete" href="{% url 'DeleteGroupSharing' sharing.id %}">
+              <img src="../../media/delete.jpg" width="30" height="30"></a>
+              {% endif %}
+        </div>
+        <br>
+        {{ sharing.GMessage }}
+      </div>
+      <img src="../../media/{{sharing.GPhoto}}" width="1000" height="300">
+      <br>
+      <table class="table">
+        <tbody>
+      <tr class="table">
+      <th><img src="../../media/likes.png" width="50" height="50"> Likes</th>
+      <th><img src="../../media/comments.png" width="50" height="50"> Comment</th>
+      <th><img src="../../media/share.png" width="50" height="50"> Share</th>
+      
+    </tr>
+  </tbody>
+</table>
 </div>
-    {% endfor %}
-    {% endfor %}
+  {% endfor %}
+  {% endfor %}
+
+</div>
+    
   </div>
   </div>
   </div>
