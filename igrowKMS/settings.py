@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'igrowKMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'igrow',
+        'NAME': 'igrow2',
         'USER':'root',
         'PASSWORD':'',
         'HOST':'localhost',
@@ -108,7 +108,7 @@ DATABASES = {
     },
     'farming': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'v2_farming',
+        'NAME': 'farming2',
         'USER':'root',
         'PASSWORD':'',
         'HOST':'localhost',

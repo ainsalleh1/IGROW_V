@@ -15,6 +15,9 @@ class Workshop(models.Model):
     Date = models.CharField(max_length=150,blank=True, null=True)
     Session = models.CharField(max_length=150)
 
+    def save(self):
+        super().save()
+
 
 class Booking(models.Model):
     class Meta:
@@ -23,4 +26,7 @@ class Booking(models.Model):
     Date = models.CharField(max_length=150,blank=True, null=True)
     Session = models.CharField(max_length=150,null=True)
     Person_fk = models.ForeignKey(Person, on_delete=models.CASCADE)
+
+    def save(self):
+        super().save()
 
