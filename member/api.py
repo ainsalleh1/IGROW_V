@@ -1,11 +1,15 @@
 from ast import Delete
+import json
 from pyexpat import model
+from django.core.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
 
 class UserAuthentication(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
@@ -29,32 +33,42 @@ class UserList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserDetail(APIView):
 
-    def get_user(self, id):
-        try:
-            model =Person.objects.get(id=id)
-            return model
-        except Person.DoesNotExist:
-            return Response(f'User with id {id} is Not Found in database', status=status.HTTP_404_NOT_FOUND)
 
-    def get(self, request,id):
-        if not self.get_user(id):
-            return Response(f'User with id {id} is Not Found in database', status=status.HTTP_404_NOT_FOUND)
-        serializer = UsersSerializer(self.get_user(id))
-        return Response(serializer.data)
-        
-    def put(self, request):   
-        serializer = UsersSerializer(self.get_user(id), data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#Login
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def login_user(request):
+    body = json.loads(request.body)
+    email = body['email'] 
+    password = body['password']
 
-    def delete(self, request,id):
-        model = self.get_user(id)
-        model.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    try:
+        Account = Person.objects.get(Email=email, Password=password)
+        token = Token.objects.get_or_create(user=Account)[0].key
+        user = Token.objects.get(key=token).user
+        print(user.Name)
+        Res = {
+            "Name": Account.Name,
+            "Age": Account.Age,
+            "DateOfBirth": Account.DateOfBirth,
+            #"email": Account.Email,
+            "Username":Account.Username,
+            "Email": Account.Email,
+            "token": token
+            
+        }
+        return Response(Res)
+    except BaseException as e:
+         return Response({'message': 'Incorect Email or Password'})
+        #raise ValidationError({"400": f'{str(e)}'})
 
+#Get user from token
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getUserFromToken(request, pk):
+    user = Token.objects.get(key=pk).user
+    serializer = UsersSerializer(user, many=False)
+    return Response(serializer.data)
 
 

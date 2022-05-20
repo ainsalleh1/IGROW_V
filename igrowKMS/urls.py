@@ -29,4 +29,5 @@ urlpatterns = [
     path('', include('sharing.urls')),
     path('', include('workshop.urls')),
     #path('auth/', include('auth.urls')),
+    #path('api/', include('member.urls')),
 ]

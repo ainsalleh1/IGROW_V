@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-)-lt*u*m!1+57^2h)@gmi(pm$us48#q4v3)^8ev_)=9)57my-p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     # 'allauth.account',
     # 'rest_auth.registration',
     # 'djoser',
+    
+    
 ]
 
 SITE_ID = 1
@@ -93,7 +95,7 @@ WSGI_APPLICATION = 'igrowKMS.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+AUTH_USER_MODEL='member.Person'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

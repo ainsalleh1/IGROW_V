@@ -26,9 +26,10 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from group.views import updateGroup
 from .views import MyObtainTokenPairView, user_list
 from rest_framework.authtoken.views import obtain_auth_token
-from member.api import UserAuthentication, UserDetail, UserList
+from member.api import UserAuthentication, UserList
 #from LOGIN.views import UserReg, sharing, discussion, view, workshop, booking, member
 from .import views
+from .import api
 from django.conf.urls import url
 # from .import index
 #from member import views
@@ -90,7 +91,7 @@ urlpatterns = [
     path('deleteBooking.html/<str:fk1>/',views.deleteBooking, name="deleteBooking"),
 
     url(r'^api/users_lists/$', UserList.as_view(), name='user_list'),
-    url(r'^api/users_list/(?P<id>\d+)/$', UserDetail.as_view(), name='user_list'),
+    #url(r'^api/users_list/(?P<id>\d+)/$', UserDetail.as_view(), name='user_list'),
     url(r'^api/auth/$', UserAuthentication.as_view(), name='User Authentication API'),
     #url(r'^rest-auth/', include('rest_auth.urls')),
     #url(r'^rest-auth/registration/', include('rest_auth.registration.urls'))
@@ -98,6 +99,9 @@ urlpatterns = [
     #path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #path('userlist/', views.user_list, name='userlist'),
     #path('login', obtain_auth_token, name='login')
+    path('users/login/', api.login_user, name='login'),
+    path('users/token/<pk>', api.getUserFromToken, name='user-token'),
+    
 
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
 

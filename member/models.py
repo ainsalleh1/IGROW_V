@@ -8,7 +8,9 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-
+from ast import Pass
+from django.db import models
+from django.contrib.auth.models import User
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -21,7 +23,7 @@ from firebase_admin import firestore
 
 
 class Person(models.Model):
-    Email = models.CharField(max_length=150)
+    Email = models.CharField(max_length=150, unique=True)
     # Pwd = models.CharField(max_length=150)
     Password = models.CharField(max_length=150)
     Username = models.CharField(max_length=150)
@@ -37,6 +39,15 @@ class Person(models.Model):
     UserLevel = models.CharField(max_length=10)
     Photo = models.ImageField(upload_to ='images/')
     #resume = models.ImageField(null=True, blank=True)
+
+    @property
+    def is_anonymous(self):
+   
+        return False
+    @property
+    def is_authenticated(self):
+   
+        return False
 
     def save(self):
         super().save()
