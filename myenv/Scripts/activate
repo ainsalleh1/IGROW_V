@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Ain\OneDrive\Documents\SEM 5\AD\PROJECT\IGROW_V\myenv"
+VIRTUAL_ENV="C:\Users\nurai\Documents\FYP\IGROW_V\myenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

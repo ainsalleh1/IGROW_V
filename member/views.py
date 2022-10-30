@@ -7,14 +7,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django import forms
-from firebase_admin import firestore
-from firebase_admin.auth import UidIdentifier, UserIdentifier
-from pyasn1_modules.rfc2459 import UserNotice
-from pyrebase.pyrebase import Database
-from rest_framework import authentication, serializers
-from rest_framework.permissions import AllowAny
+#from firebase_admin import firestore
+#from firebase_admin.auth import UidIdentifier, UserIdentifier
+#from pyasn1_modules.rfc2459 import UserNotice
+#from pyrebase.pyrebase import Database
+#from rest_framework import authentication, serializers
+#from rest_framework.permissions import AllowAny
 # from .forms import CreateInDiscussion, PersonForm, UserUpdateForm
-from rest_framework.parsers import JSONParser
+#from rest_framework.parsers import JSONParser
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.db.models.signals import post_save
@@ -40,7 +40,9 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate('C:/Users/Ain/OneDrive/Documents/SEM 5/AD/PROJECT/IGROW_V/member/serviceAccountKey.json')
+from member import serializers
+
+cred = credentials.Certificate('member\serviceAccountKey.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -662,17 +664,17 @@ def deleteBooking(request,fk1):
     }
     return render(request, 'deleteBooking.html', {'object':booking})
 
-class MyObtainTokenPairView(TokenObtainPairView):
-    permission_classes = (AllowAny,)
+#class MyObtainTokenPairView(TokenObtainPairView):
+ #   permission_classes = (AllowAny,)
     #authentication_class = 
-    Email = serializers.CharField(required=False)
-    username = Email
-    serializers_class = MyTokenObtainPairSerializer
-    def get_token(cls, user):
-            token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+  #  Email = serializers.CharField(required=False)
+   # username = Email
+    #serializers_class = MyTokenObtainPairSerializer
+    #def get_token(cls, user):
+    #        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
         # Add custom claims
-            token['username'] = user.Email
-            return token
+     #       token['username'] = user.Email
+      #      return token
 
 

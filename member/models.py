@@ -11,9 +11,9 @@ from rest_framework.authtoken.models import Token
 from ast import Pass
 from django.db import models
 from django.contrib.auth.models import User
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+#import firebase_admin
+#from firebase_admin import credentials
+#from firebase_admin import firestore
 
 #cred = credentials.Certificate('D:\IGROW_V-main\member\serviceAccountKey.json')
 

@@ -24,7 +24,7 @@ from rest_framework import authentication
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from group.views import updateGroup
-from .views import MyObtainTokenPairView, user_list
+#from .views import MyObtainTokenPairView, user_list
 from rest_framework.authtoken.views import obtain_auth_token
 from member.api import UserAuthentication, UserList
 #from LOGIN.views import UserReg, sharing, discussion, view, workshop, booking, member
